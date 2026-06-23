@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Update this date when you revise the page (convention from nownownow.com).
+const updated = 'June 2026';
+---
+<Base title="Now — Bradley Davis" current="now" description="What Bradley Davis is working on right now.">
+  <h1>Now</h1>
+  <p class="muted sans">Updated {updated}, from St. Louis, MO.</p>
+
+  <p>
+    I left OKX in May 2026 after four years building its fiat payments platform.
+    Right now I am figuring out what is next and using the gap to build in the
+    open rather than just interview.
+  </p>
+
+  <p>The current focus:</p>
+  <ul>
+    <li>
+      Going deep on agentic engineering: production MCP servers, multi-agent
+      orchestration, and the patterns that actually hold up outside a demo.
+    </li>
+    <li>
+      Running everything off a five-machine, Nix-managed homelab (a Bitcoin and
+      Lightning node, Pi-hole DNS, Home Assistant, ZFS replication) as a daily
+      proving ground.
+    </li>
+    <li>
+      Starting to write some of it down. Posts are in the works on running MCP
+      servers in production and on the Nix control plane behind the homelab.
+    </li>
+    <li>
+      Off the keyboard: two small kids, a new house, and a front yard I am slowly
+      bringing back from the dead.
+    </li>
+  </ul>
+
+  <p class="muted">
+    Want to talk shop or about a role? <a href="mailto:bdavis@hey.com">bdavis@hey.com</a>.
+  </p>
+
+  <p class="muted sans" style="font-size:0.85rem;">
+    This is a <a href="https://nownownow.com/about">now page</a>.
+  </p>
+</Base>

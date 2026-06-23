@@ -1,0 +1,334 @@
+# =============================================================================
+# Resume content store — single source of truth
+# =============================================================================
+# Every reusable unit (summary fragment, experience bullet, project, skill) is
+# tagged by THEME and STRENGTH so render.py can assemble a role-framed, one-page
+# resume per PROFILE (see profiles/*.yaml) without hand-editing LaTeX.
+#
+# THEMES (the tag vocabulary — keep this list closed; profiles weight these):
+#   ai-native            AI/agent engineering: MCP, agent orchestration, LLM apps
+#   backend              core backend: services, APIs, data, Java/Spring
+#   distributed-systems  scale, events, Kafka, multi-region, reliability
+#   infra                platform/infra: cloud, containers, homelab, IaC
+#   leadership           tech lead, architecture ownership, mentoring
+#   payments             payments/fintech domain
+#   devex                developer experience, tooling, build/CI
+#
+# STRENGTH: 1-5, how strong/impressive the unit is on its own (tie-breaker +
+#   selection weight). 5 = headline-grade, 1 = filler.
+#
+# TEXT MARKUP (processed by render.py, so author in plain prose):
+#   **bold**   -> \textbf{}   (use sparingly, for the metric/impact phrase)
+#   Do NOT use em dashes in bullet bodies (policy): use commas, colons, parens.
+#   Em dashes ARE allowed in cvevent `title` lines (rendered as LaTeX ---).
+#   Special chars (% & $ # _ etc.) are auto-escaped; just type them normally.
+# =============================================================================
+
+basics:
+  name: Bradley Allan Davis
+  email: bdavis@hey.com
+  phone: "+1-636-448-6006"
+  website: bdavis.io
+  linkedin: BradleyAllanDavis
+  github: BradleyAllanDavis
+  location: St. Louis, MO
+
+# Tagline shown under the name, selected per profile by key.
+taglines:
+  default: AI-Native Senior Software Engineer
+  ai-native-eng: "AI-Native Engineer — Agents, MCP & Backend Platforms"
+  senior-backend-fintech: "Senior Backend Engineer — Payments & Distributed Systems"
+  platform-infra: "Platform & Infrastructure Engineer"
+
+# -----------------------------------------------------------------------------
+# Summary — composed from full-sentence fragments. A profile picks the top N by
+# theme weight; selected fragments render in the order below so prose stays
+# coherent (backend-credibility sentence before the AI-native sentence).
+# -----------------------------------------------------------------------------
+summary_fragments:
+  - id: backbone
+    themes: [backend, distributed-systems, payments]
+    strength: 5
+    text: >-
+      Senior backend engineer with 7+ years building scalable, event-driven
+      payment and platform systems in Java, Spring, and Kafka.
+  - id: ai-layer
+    themes: [ai-native]
+    strength: 5
+    text: >-
+      Now builds AI-native systems on that foundation: production MCP servers,
+      multi-agent orchestration, and LLM-app architecture.
+  - id: lead
+    themes: [leadership]
+    strength: 3
+    text: >-
+      Has led shared-platform libraries, fee calculation, and the largest
+      architectural initiative in a multi-region fiat payments platform.
+  - id: payments-scope
+    themes: [payments, distributed-systems]
+    strength: 3
+    text: >-
+      Four years on a global fiat payments platform spanning 30+ payment
+      providers across APAC, EU, and the US.
+  - id: infra-proof
+    themes: [infra]
+    strength: 3
+    text: >-
+      Runs a five-machine, Nix-managed homelab with self-hosted infrastructure
+      as a daily proving ground for new tooling.
+
+# -----------------------------------------------------------------------------
+# A first-class AI capability area (deliberately NOT scattered into skill tags).
+# Rendered as its own featured section near the top. Shown when a profile sets
+# show_ai_section: true.
+# -----------------------------------------------------------------------------
+ai_engineering:
+  capabilities:
+    - MCP server authoring
+    - Multi-agent orchestration
+    - LLM-app architecture
+    - Evals & observability
+    - RAG & context engineering
+    - Agentic dev workflows
+
+# -----------------------------------------------------------------------------
+# Experience. Roles render newest-first. `bullets` is a pool; a profile selects
+# the top N per role by theme weight, then renders them in the order below.
+# Roles with `archive: true` are preserved here but never rendered.
+# -----------------------------------------------------------------------------
+experience:
+  - company: OKX
+    url: https://www.okx.com
+    title: "Senior Software Engineer — Fiat Payments Platform"
+    dates: Mar 2022 — May 2026
+    location: Remote, USA
+    bullets:
+      - id: catalyst
+        themes: [leadership, distributed-systems, backend]
+        strength: 5
+        text: >-
+          Led Project Catalyst, the largest architectural effort in the
+          platform's history, decomposing the payment-orchestration monolith
+          into **independently deployable modules** with semver-governed
+          contracts, enabling decoupled team ownership, parallel development,
+          and lower-risk releases.
+      - id: ai-dev
+        themes: [ai-native, devex]
+        strength: 5
+        text: >-
+          Drove the team's adoption of AI-assisted development, using agentic
+          coding tools to deliver large-scale work including a **JUnit 5
+          migration across roughly 1,100 test files** and the Catalyst module
+          decomposition.
+      - id: payment-common
+        themes: [backend, leadership, distributed-systems]
+        strength: 5
+        text: >-
+          Built the shared payments library from the ground up as tech lead
+          (Temporal workflow infrastructure, alerting, customer notifications,
+          OpenTelemetry, and core utilities), **adopted by every service** across
+          the payments platform.
+      - id: recon
+        themes: [distributed-systems, backend, payments]
+        strength: 5
+        text: >-
+          Designed and built the platform's internal and external reconciliation
+          engines: Kafka-based event processing with multi-region scheduling and
+          automated alerting, reconciling **millions of transactions** across all
+          payment-provider integrations.
+      - id: fee-center
+        themes: [backend, payments]
+        strength: 4
+        text: >-
+          Designed and shipped a global payment fee-calculation service from
+          conception to production, with composable fee criteria and components,
+          that underpinned every payment integration going forward and runs live
+          serving DBS Singapore channels.
+      - id: codegen
+        themes: [devex, backend, infra]
+        strength: 4
+        text: >-
+          Authored a Maven code-generation plugin for provider-integration
+          boilerplate, **cutting setup time by over 50%** and letting junior
+          engineers onboard new providers independently.
+      - id: counterparty
+        themes: [backend, payments]
+        strength: 3
+        text: >-
+          Redesigned the counterparty funding-exposure check, **reducing the
+          effort to add it to new integrations by over 80%**.
+      - id: openpayd
+        themes: [backend, payments, distributed-systems]
+        strength: 3
+        text: >-
+          Built the OpenPayd integration as the first channel on a new
+          payment-gateway architecture (webhook signature verification, account
+          creation, deposit and withdrawal flows, Kafka events), establishing
+          integration patterns still used today.
+      - id: card
+        themes: [backend]
+        strength: 2
+        text: >-
+          Bootstrapped a Web3 card platform from inception: Temporal workflows,
+          card authorization and funding, and transaction APIs.
+
+  - company: Intuit
+    url: https://www.intuit.com
+    title: "Software Engineer — QuickBooks Developer Ecosystem"
+    dates: Feb 2019 — Feb 2022
+    location: Remote, USA
+    bullets:
+      - id: webhooks
+        themes: [distributed-systems, backend]
+        strength: 5
+        text: >-
+          Led webhooks processing infrastructure **handling 10-20M daily
+          notifications**, powering real-time data sync for thousands of SMB
+          customers and third-party developers at **99.9% reliability**.
+      - id: qbo
+        themes: [backend, payments]
+        strength: 3
+        text: >-
+          Extended the webhooks ecosystem across QuickBooks Online, Revenue
+          Platform, and Payroll domain events, powering the launch of QBO
+          Advanced.
+      - id: tracing
+        themes: [distributed-systems, infra]
+        strength: 3
+        text: >-
+          Implemented distributed tracing across all webhooks services,
+          surfacing performance bottlenecks and speeding incident triage across
+          the notification pipeline.
+
+  # --- Archived roles: preserved as source-of-truth, never rendered ----------
+  - company: Cray (Hewlett Packard Enterprise)
+    title: "Software Engineer Intern"
+    dates: May 2017 — Aug 2017
+    location: Minneapolis, MN
+    archive: true
+    bullets:
+      - id: cray-elk
+        themes: [infra]
+        strength: 1
+        text: >-
+          Built an ELK-stack proof of concept to replace a log-scraping boot
+          profiler for Cray HPC systems.
+  - company: Extreme Engineering Solutions
+    title: "Associate Embedded Engineer"
+    dates: May 2016 — Jan 2017
+    location: Middleton, WI
+    archive: true
+    bullets:
+      - id: xes-firmware
+        themes: [backend]
+        strength: 1
+        text: >-
+          Developed coreboot and UEFI/BIOS firmware for embedded x86 single-board
+          computers and the automated tests covering it.
+  - company: Schlumberger
+    title: "MWD Field Engineer"
+    dates: Jul 2014 — Feb 2015
+    location: Casper, WY
+    archive: true
+    bullets:
+      - id: slb-mwd
+        themes: []
+        strength: 1
+        text: >-
+          Supervised Measurement-While-Drilling operations at the rig site,
+          configuring embedded tools for real-time drilling decisions.
+
+# -----------------------------------------------------------------------------
+# Selected Projects — concrete proof of AI-native building. A profile selects
+# the top N by theme weight, rendered in the order below.
+# -----------------------------------------------------------------------------
+projects:
+  - id: dotfiles
+    name: Nix Control Plane
+    themes: [infra, ai-native, devex]
+    strength: 5
+    text: >-
+      A single declarative Nix repo managing five machines (macOS and NixOS),
+      secrets, networking, and home automation, plus AI-agent config and
+      health-check automation.
+  - id: mcp
+    name: Production MCP Servers
+    themes: [ai-native, backend]
+    strength: 5
+    text: >-
+      10+ Model Context Protocol servers running in production, exposing home,
+      finance, and infrastructure systems as tools that agents drive end to end.
+  - id: homelab
+    name: Self-Hosted Homelab
+    themes: [infra, distributed-systems]
+    strength: 4
+    text: >-
+      Bitcoin and Lightning node, Pi-hole DNS, Home Assistant, and ZFS
+      replication with restic backups across a UniFi network, monitored with
+      Prometheus and Grafana.
+  # Not live yet (no site built as of 2026-06-22). draft -> render.py skips it.
+  # Flip draft to false (and re-enable the header link in template.tex.j2) once
+  # bdavis.io is actually deployed.
+  - id: site
+    name: bdavis.io
+    themes: [ai-native, infra]
+    strength: 3
+    draft: true
+    text: >-
+      A from-scratch personal site and writing home built with Astro,
+      documenting agentic-engineering and infrastructure work.
+
+# -----------------------------------------------------------------------------
+# Skills as named groups. Each group is tagged by theme/strength; a profile
+# selects the top N groups. AI groups are pinned so they always lead.
+# -----------------------------------------------------------------------------
+skill_groups:
+  - name: AI Tooling
+    themes: [ai-native]
+    strength: 5
+    pinned: true
+    tags: [Claude Code, Cursor, Claude Agent SDK, Anthropic API, ChatGPT, Gemini]
+  - name: Backend
+    themes: [backend]
+    strength: 5
+    tags: [Java, Spring Boot, Kafka, MySQL, Redis, Temporal, REST APIs]
+  - name: Distributed Systems
+    themes: [distributed-systems]
+    strength: 4
+    tags: [Event-Driven, Microservices, Multi-Region, Idempotency, Reconciliation]
+  - name: Cloud & Infra
+    themes: [infra]
+    strength: 4
+    tags: [AWS, Alibaba Cloud, Docker, Kubernetes, NixOS, Linux]
+  - name: DevOps
+    themes: [infra, devex]
+    strength: 3
+    tags: [CI/CD, Git, GitHub/GitLab, ArgoCD, Jenkins, Prometheus]
+  - name: Domains
+    themes: [payments]
+    strength: 3
+    tags: [Payments, Fintech, Accounting, Financial Systems]
+  - name: Leadership
+    themes: [leadership]
+    strength: 3
+    tags: [Tech Lead, System Design, Mentoring, Code Review]
+
+# -----------------------------------------------------------------------------
+# Education. Coursework preserved but rendered only if a profile opts in.
+# -----------------------------------------------------------------------------
+education:
+  - school: University of Wisconsin-Madison
+    url: https://www.wisc.edu/
+    degree: "M.S. — Computer Science"
+    dates: Sep 2015 — Dec 2018
+    location: Madison, WI
+    coursework: >-
+      Distributed Systems, Machine Learning, Big Data Systems, Advanced
+      Operating Systems, Computer Networks, Artificial Intelligence, Databases
+
+# -----------------------------------------------------------------------------
+# One compact, optional line. Profiles toggle with beyond_keyboard: true/false.
+# -----------------------------------------------------------------------------
+beyond_keyboard: >-
+  Eagle Scout, saved a life with CPR, former oilfield MWD field engineer and ski
+  instructor.

@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro';
+import {
+  basics, tagline, summary, aiCapabilities, experience,
+  projects, skillGroups, education, beyondKeyboard, md,
+} from '../lib/resume';
+---
+<Base title="Resume — Bradley Davis" current="resume" description={`${basics.name} — ${tagline}`}>
+  <div class="resume">
+    <h1>{basics.name}</h1>
+    <p class="resume-meta">{tagline}</p>
+    <p class="resume-meta">
+      <a href={`mailto:${basics.email}`}>{basics.email}</a>
+      &nbsp;·&nbsp;<a href={`https://github.com/${basics.github}`}>github.com/{basics.github}</a>
+      &nbsp;·&nbsp;<a href={`https://www.linkedin.com/in/${basics.linkedin}`}>linkedin.com/in/{basics.linkedin}</a>
+      &nbsp;·&nbsp;{basics.location}
+    </p>
+    <a class="dl" href="/resume.pdf">Download PDF</a>
+
+    <h2>Summary</h2>
+    <p>{summary.map((f) => <Fragment set:html={md(f.text) + ' '} />)}</p>
+
+    {aiCapabilities.length > 0 && (
+      <>
+        <h2>AI Engineering</h2>
+        <ul class="tags">
+          {aiCapabilities.map((c) => <li>{c}</li>)}
+        </ul>
+      </>
+    )}
+
+    <h2>Experience</h2>
+    {experience.map((role) => (
+      <section>
+        <div class="role-head">
+          <h3>
+            {role.url ? <a href={role.url}>{role.company}</a> : role.company}
+            <span class="muted"> — </span><Fragment set:html={md(role.title)} />
+          </h3>
+          <span class="dates">{role.dates}</span>
+        </div>
+        {role.location && <div class="role-sub">{role.location}</div>}
+        <ul>
+          {role.bullets.map((b) => <li set:html={md(b.text)} />)}
+        </ul>
+      </section>
+    ))}
+
+    {projects.length > 0 && (
+      <>
+        <h2>Selected Projects</h2>
+        {projects.map((p) => (
+          <p><strong class="sans">{p.name}.</strong> <Fragment set:html={md(p.text)} /></p>
+        ))}
+      </>
+    )}
+
+    <h2>Skills</h2>
+    {skillGroups.map((g) => (
+      <div class="skill-group">
+        <span class="label">{g.name}:</span> {g.tags.join(', ')}
+      </div>
+    ))}
+
+    {education.length > 0 && (
+      <>
+        <h2>Education</h2>
+        {education.map((e) => (
+          <section>
+            <div class="role-head">
+              <h3>{e.url ? <a href={e.url}>{e.school}</a> : e.school}</h3>
+              <span class="dates">{e.dates}</span>
+            </div>
+            <div class="role-sub"><Fragment set:html={md(e.degree)} />{e.location ? ` · ${e.location}` : ''}</div>
+            {e.coursework && <p class="muted">{e.coursework}</p>}
+          </section>
+        ))}
+      </>
+    )}
+
+    {beyondKeyboard && (
+      <>
+        <h2>Beyond the Keyboard</h2>
+        <p><Fragment set:html={md(beyondKeyboard)} /></p>
+      </>
+    )}
+  </div>
+</Base>

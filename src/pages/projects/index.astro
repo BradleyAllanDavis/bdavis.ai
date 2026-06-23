@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+
+// Sparse, honest list. Link only what is actually public and reachable; most of
+// this runs on a private homelab, so those entries describe rather than link.
+const projects = [
+  {
+    name: 'Nix control plane',
+    desc: 'A single declarative Nix repo managing five machines (macOS and NixOS), secrets, networking, home automation, plus AI-agent config and health-check automation.',
+    link: null,
+  },
+  {
+    name: 'Production MCP servers',
+    desc: 'A dozen Model Context Protocol servers running at home, exposing home, finance, and infrastructure systems as tools that agents drive end to end.',
+    link: null,
+  },
+  {
+    name: 'Self-hosted homelab',
+    desc: 'A Bitcoin and Lightning node, Pi-hole DNS, Home Assistant, and ZFS replication with restic backups across a UniFi network, monitored with Prometheus and Grafana.',
+    link: null,
+  },
+  {
+    name: 'bdavis.io',
+    desc: 'This site. Astro and Markdown, deployed to Cloudflare Pages; the resume page renders from the same content store as the PDF.',
+    link: 'https://github.com/BradleyAllanDavis/bdavis.io',
+  },
+];
+---
+<Base title="Projects — Bradley Davis" current="projects" description="Things Bradley Davis has built.">
+  <h1>Projects</h1>
+  <p class="muted">
+    A short list. Most of it runs on a private homelab, so some entries describe
+    the work rather than link to it.
+  </p>
+
+  {projects.map((p) => (
+    <section>
+      <h3>
+        {p.link ? <a href={p.link}>{p.name}</a> : p.name}
+      </h3>
+      <p>{p.desc}</p>
+    </section>
+  ))}
+</Base>

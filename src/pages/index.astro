@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+
+const tiles = [
+  { href: '/resume', name: 'Resume', desc: 'Experience, projects, and skills. PDF download.' },
+  { href: '/projects', name: 'Projects', desc: 'A Nix control plane, production MCP servers, a self-hosted homelab.' },
+  { href: '/now', name: 'Now', desc: 'What I am working on at the moment.' },
+];
+---
+<Base current="home">
+  <h1>Bradley Davis</h1>
+  <p class="lede">
+    Senior backend engineer, ex-OKX. Building AI-native systems and agentic
+    workflows on top of a five-machine Nix homelab in St. Louis, MO.
+  </p>
+  <p class="muted">
+    Seven years on event-driven payment and platform systems in Java, Spring, and
+    Kafka. Now working on MCP servers, multi-agent orchestration, and LLM-app
+    architecture. Reach me at <a href="mailto:bdavis@hey.com">bdavis@hey.com</a>.
+  </p>
+
+  <ul class="tiles">
+    {tiles.map((t) => (
+      <li>
+        <a class="tile" href={t.href}>
+          <span class="tile-name">{t.name}</span>
+          <div class="tile-desc">{t.desc}</div>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Base>

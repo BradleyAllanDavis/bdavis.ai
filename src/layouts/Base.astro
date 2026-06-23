@@ -1,0 +1,96 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  current?: string;
+}
+const {
+  title = 'Bradley Davis',
+  description = 'Senior backend engineer, ex-OKX. Building AI-native systems and a Nix homelab in St. Louis.',
+  current,
+} = Astro.props;
+
+const nav = [
+  { href: '/', label: 'Home', key: 'home' },
+  { href: '/resume', label: 'Resume', key: 'resume' },
+  { href: '/projects', label: 'Projects', key: 'projects' },
+  { href: '/now', label: 'Now', key: 'now' },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {/* Apply stored theme before paint to avoid a flash. */}
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'light' || t === 'dark') {
+            document.documentElement.setAttribute('data-theme', t);
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="site-head">
+        <a class="brand" href="/">Bradley Davis</a>
+        <nav class="site-nav" aria-label="Primary">
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={current === item.key ? 'page' : undefined}
+            >{item.label}</a>
+          ))}
+          <button class="theme-toggle" type="button" aria-label="Toggle color theme" data-theme-toggle>
+            theme
+          </button>
+        </nav>
+      </header>
+
+      <main>
+        <slot />
+      </main>
+
+      <footer class="site-foot">
+        <span>Bradley Davis · St. Louis, MO</span>
+        <span>
+          <a href="mailto:bdavis@hey.com">bdavis@hey.com</a>
+          &nbsp;·&nbsp;
+          <a href="https://github.com/BradleyAllanDavis">GitHub</a>
+          &nbsp;·&nbsp;
+          <a href="https://www.linkedin.com/in/BradleyAllanDavis">LinkedIn</a>
+        </span>
+      </footer>
+    </div>
+
+    <script is:inline>
+      (function () {
+        var btn = document.querySelector('[data-theme-toggle]');
+        if (!btn) return;
+        function current() {
+          var explicit = document.documentElement.getAttribute('data-theme');
+          if (explicit) return explicit;
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        btn.addEventListener('click', function () {
+          var next = current() === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          try { localStorage.setItem('theme', next); } catch (e) {}
+        });
+      })();
+    </script>
+  </body>
+</html>
