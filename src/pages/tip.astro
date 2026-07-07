@@ -35,6 +35,8 @@
         color: #fff;
         font-family: inherit;
         cursor: pointer;
+        transition: transform 0.15s ease;
+        touch-action: none;
       }
       .row {
         display: flex;
@@ -57,11 +59,29 @@
     <div class="tip">
       <h1>Leave a tip?</h1>
       <div class="row">
-        <button>30%</button>
-        <button>34%</button>
-        <button>38%</button>
+        <button data-dodge>30%</button>
+        <button data-dodge>34%</button>
+        <button id="max">38%</button>
       </div>
-      <button class="custom">Custom</button>
+      <button class="custom" data-dodge>Custom</button>
     </div>
+    <script is:inline>
+      const dodge = (el) => (e) => {
+        e.preventDefault();
+        const dx = (Math.random() - 0.5) * Math.min(window.innerWidth * 0.7, 500);
+        const dy = (Math.random() - 0.5) * Math.min(window.innerHeight * 0.6, 400);
+        el.style.transform = `translate(${dx}px, ${dy}px)`;
+      };
+      document.querySelectorAll('[data-dodge]').forEach((el) => {
+        const h = dodge(el);
+        el.addEventListener('pointerenter', h);
+        el.addEventListener('pointerdown', h);
+        el.addEventListener('touchstart', h, { passive: false });
+        el.addEventListener('click', (e) => e.preventDefault());
+      });
+      document.getElementById('max').addEventListener('click', () => {
+        document.querySelector('.tip').innerHTML = '<h1>Thank you.</h1>';
+      });
+    </script>
   </body>
 </html>
