@@ -26,9 +26,8 @@
 
 basics:
   name: Bradley Allan Davis
-  email: bdavis@hey.com
-  phone: "+1-636-448-6006"
-  website: bdavis.io
+  email: hire@bdavis.ai
+  website: bdavis.ai
   linkedin: BradleyAllanDavis
   github: BradleyAllanDavis
   location: St. Louis, MO
@@ -56,8 +55,8 @@ summary_fragments:
     themes: [ai-native]
     strength: 5
     text: >-
-      Now builds AI-native systems on that foundation: production MCP servers,
-      multi-agent orchestration, and LLM-app architecture.
+      Now builds on that foundation with MCP servers and agentic development
+      workflows that put AI to work in real systems.
   - id: lead
     themes: [leadership]
     strength: 3
@@ -85,11 +84,8 @@ summary_fragments:
 ai_engineering:
   capabilities:
     - MCP server authoring
-    - Multi-agent orchestration
-    - LLM-app architecture
-    - Evals & observability
-    - RAG & context engineering
     - Agentic dev workflows
+    - Agent tooling & automation
 
 # -----------------------------------------------------------------------------
 # Experience. Roles render newest-first. `bullets` is a pool; a profile selects
@@ -109,9 +105,9 @@ experience:
         text: >-
           Led Project Catalyst, the largest architectural effort in the
           platform's history, decomposing the payment-orchestration monolith
-          into **independently deployable modules** with semver-governed
-          contracts, enabling decoupled team ownership, parallel development,
-          and lower-risk releases.
+          into **five independently deployable modules** with semver-governed
+          DTO contracts, enabling decoupled team ownership, parallel
+          development, and lower-risk releases.
       - id: ai-dev
         themes: [ai-native, devex]
         strength: 5
@@ -133,17 +129,19 @@ experience:
         strength: 5
         text: >-
           Designed and built the platform's internal and external reconciliation
-          engines: Kafka-based event processing with multi-region scheduling and
-          automated alerting, reconciling **millions of transactions** across all
-          payment-provider integrations.
+          engines: Kafka-based event processing with multi-region scheduling,
+          1-to-N status mapping, and automated alerting, reconciling **millions
+          of transactions** across all payment-provider integrations.
       - id: fee-center
         themes: [backend, payments]
         strength: 4
         text: >-
           Designed and shipped a global payment fee-calculation service from
-          conception to production, with composable fee criteria and components,
-          that underpinned every payment integration going forward and runs live
-          serving DBS Singapore channels.
+          conception to production, with composable fee criteria (currency,
+          entity, user type, channel, method, transaction type) and components
+          (flat, tiered, percentage), that **underpinned every payment
+          integration going forward** and runs live serving DBS Singapore
+          channels.
       - id: codegen
         themes: [devex, backend, infra]
         strength: 4
@@ -249,31 +247,33 @@ projects:
     strength: 5
     text: >-
       A single declarative Nix repo managing five machines (macOS and NixOS),
-      secrets, networking, and home automation, plus AI-agent config and
-      health-check automation.
+      secrets, networking, and home automation. AI agents edit and deploy it
+      daily; preflight guards abort any remote deploy from a dirty or
+      unpushed tree.
   - id: mcp
-    name: Production MCP Servers
+    name: MCP Servers
     themes: [ai-native, backend]
     strength: 5
+    url: https://github.com/BradleyAllanDavis/things-turbo
     text: >-
-      10+ Model Context Protocol servers running in production, exposing home,
-      finance, and infrastructure systems as tools that agents drive end to end.
+      10+ Model Context Protocol servers in daily use, spanning authored
+      (things-turbo, published) and hardened third-party, exposing home,
+      finance, and infrastructure systems as agent-callable tools. Write paths
+      are permission-scoped and credential reads are tamper-monitored.
   - id: homelab
     name: Self-Hosted Homelab
     themes: [infra, distributed-systems]
     strength: 4
     text: >-
       Bitcoin and Lightning node, Pi-hole DNS, Home Assistant, and ZFS
-      replication with restic backups across a UniFi network, monitored with
-      Prometheus and Grafana.
-  # Not live yet (no site built as of 2026-06-22). draft -> render.py skips it.
-  # Flip draft to false (and re-enable the header link in template.tex.j2) once
-  # bdavis.io is actually deployed.
+      replication with restic backups across a UniFi network. Monitored with
+      Prometheus and Grafana; agents operate the stack day to day through the
+      same MCP layer.
+  # Site went live 2026-07-06.
   - id: site
-    name: bdavis.io
+    name: bdavis.ai
     themes: [ai-native, infra]
     strength: 3
-    draft: true
     text: >-
       A from-scratch personal site and writing home built with Astro,
       documenting agentic-engineering and infrastructure work.
