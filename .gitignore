@@ -13,3 +13,5 @@ npm-debug.log*
 .env.production
 # wrangler
 .wrangler/
+# local agent-harness config, not project content
+.claude/

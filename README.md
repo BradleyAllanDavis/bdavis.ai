@@ -1,4 +1,4 @@
-# bdavis.io
+# bdavis.ai
 
 Personal site for Bradley Davis. Spare, technical, single column. Built with
 [Astro](https://astro.build), deployed to Cloudflare Pages.
