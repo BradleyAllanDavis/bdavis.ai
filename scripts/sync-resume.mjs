@@ -19,8 +19,9 @@ if (!fs.existsSync(src)) {
 }
 
 fs.mkdirSync(path.dirname(destYaml), { recursive: true });
-fs.copyFileSync(src, destYaml);
-console.log(`synced ${src} -> ${destYaml}`);
+const yaml = fs.readFileSync(src, 'utf8').replace(/^\s*phone:.*\n/m, '');
+fs.writeFileSync(destYaml, yaml);
+console.log(`synced ${src} -> ${destYaml} (phone stripped)`);
 
 if (fs.existsSync(srcPdf)) {
   fs.mkdirSync(path.dirname(destPdf), { recursive: true });
