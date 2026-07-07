@@ -10,6 +10,7 @@
     "sync-resume": "node scripts/sync-resume.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "astro": "^5.13.0",
     "js-yaml": "^4.1.0"
   },
