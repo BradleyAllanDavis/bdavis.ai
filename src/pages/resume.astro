@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import {
   basics, tagline, summary, aiCapabilities, experience,
-  projects, skillGroups, education, beyondKeyboard, md,
+  projects, skillGroups, education, beyondKeyboard, md, accentKey,
 } from '../lib/resume';
 ---
 <Base title="Resume — Bradley Davis" current="resume" description={`${basics.name} — ${tagline}`}>
@@ -25,7 +25,7 @@ import {
     {aiCapabilities.length > 0 && (
       <>
         <h2>AI Engineering</h2>
-        <ul class="tags">
+        <ul class="tags tags--ai">
           {aiCapabilities.map((c) => <li>{c}</li>)}
         </ul>
       </>
@@ -36,6 +36,9 @@ import {
       <section>
         <div class="role-head">
           <h3>
+            {role.accentKey && (
+              <span class="accent-dot" style={`--dot-fill: var(--accent-${role.accentKey})`} aria-hidden="true" />
+            )}
             {role.url ? <a href={role.url}>{role.company}</a> : role.company}
             <span class="muted"> — </span><Fragment set:html={md(role.title)} />
           </h3>
@@ -52,7 +55,12 @@ import {
       <>
         <h2>Selected Projects</h2>
         {projects.map((p) => (
-          <p><strong class="sans">{p.name}.</strong> <Fragment set:html={md(p.text)} /></p>
+          <p>
+            {accentKey(p.themes) && (
+              <span class="accent-dot" style={`--dot-fill: var(--accent-${accentKey(p.themes)})`} aria-hidden="true" />
+            )}
+            <strong class="sans">{p.name}.</strong> <Fragment set:html={md(p.text)} />
+          </p>
         ))}
       </>
     )}
@@ -60,7 +68,12 @@ import {
     <h2>Skills</h2>
     {skillGroups.map((g) => (
       <div class="skill-group">
-        <span class="label">{g.name}:</span> {g.tags.join(', ')}
+        <span class="label">
+          {accentKey(g.themes) && (
+            <span class="accent-dot" style={`--dot-fill: var(--accent-${accentKey(g.themes)})`} aria-hidden="true" />
+          )}
+          {g.name}:
+        </span> {g.tags.join(', ')}
       </div>
     ))}
 

@@ -24,6 +24,24 @@
   --cyan:   #2aa198;
   --green:  #859900;
 
+  /* Semantic theme->accent map, keyed off the closed theme vocabulary in
+     ~/.dotfiles/resume/content.yaml (ai-native, backend, distributed-systems,
+     infra, leadership, payments, devex). Fixed pairing, not decorative
+     per-instance color -- the same theme always gets the same accent
+     everywhere it appears (resume role/skill/project anchors, projects page
+     tags). --red is deliberately unassigned: no error/alert content on this
+     site, and Solarized itself treats red as the alert color, so leaving it
+     unused reads as restraint rather than an oversight. Values are identical
+     light/dark since the accent hexes themselves don't shift between
+     Solarized variants -- only where/how they're used does. */
+  --accent-ai-native:           var(--violet);
+  --accent-backend:             var(--blue);
+  --accent-distributed-systems: var(--cyan);
+  --accent-infra:               var(--green);
+  --accent-leadership:          var(--orange);
+  --accent-payments:            var(--magenta);
+  --accent-devex:               var(--yellow);
+
   /* Source Serif 4 for reading -- an actual editorial serif instead of the
      default-feeling Georgia stack, still restrained (this is a resume site,
      not a type specimen). IBM Plex Sans for structure/nav/labels -- a
@@ -162,6 +180,19 @@ body {
 .site-nav a:hover,
 .site-nav a[aria-current="page"] { color: var(--link); }
 .site-nav a[aria-current="page"] { border-bottom-color: var(--link); }
+/* Per-page nav accent -- Home/Resume keep the site's default link blue
+   (identity + backend, unchanged); Projects/Now get their own hue so the
+   active/hover state itself carries section identity instead of one color
+   for every link. Restricted to orange/violet: verified >=3.2:1 against both
+   theme backgrounds (WCAG relative-luminance), matching or beating the
+   existing blue-link baseline (~3.0-3.4:1) rather than reaching for
+   cyan/yellow/green, which measure under 3:1 on Solarized Light's bg. */
+.site-nav a[data-accent="projects"]:hover,
+.site-nav a[data-accent="projects"][aria-current="page"] { color: var(--orange); }
+.site-nav a[data-accent="projects"][aria-current="page"] { border-bottom-color: var(--orange); }
+.site-nav a[data-accent="now"]:hover,
+.site-nav a[data-accent="now"][aria-current="page"] { color: var(--violet); }
+.site-nav a[data-accent="now"][aria-current="page"] { border-bottom-color: var(--violet); }
 
 .theme-toggle {
   background: none;
@@ -218,9 +249,14 @@ p { margin: 0 0 1rem; }
 
 code, kbd, pre { font-family: var(--mono); font-size: 0.92em; }
 code {
-  /* Same tone as the original --bg-soft -- verified 3.64:1/4.11:1 body-text
-     contrast, unchanged from before this file introduced surface tiers. */
+  /* Fill/text pairing unchanged -- verified 3.64:1/4.11:1 body-text contrast.
+     The left border is the one new accent touch: blue, matching --link, so
+     it reads as "code" rather than introducing a second unrelated hue. Kept
+     to a single accent deliberately -- there's no real code-block content on
+     this site yet to justify a full multi-hue syntax theme, and building one
+     against zero code samples is exactly the half-finished-demo trap. */
   background: var(--surface-1);
+  border-left: 2px solid var(--blue);
   padding: 0.1em 0.35em;
   border-radius: 4px;
 }
@@ -228,6 +264,25 @@ code {
 .lede { font-size: var(--text-lg); color: var(--fg-strong); }
 .muted { color: var(--fg-muted); }
 .sans { font-family: var(--sans); }
+
+/* Accent dot -- shared primitive for per-entry section identity (resume
+   roles, resume/projects-page project entries, skill groups). A solid fill
+   ringed in --fg-strong, same construction as the fleet-viz status dots
+   below: the ring alone clears WCAG 1.4.11's 3:1 non-text contrast floor
+   against both --bg and --surface-1 (verified >=4.3:1 in both themes), so
+   the fill color itself can be any of the 7 semantic theme accents without
+   re-deriving contrast per hue. Fill color is set inline per instance via
+   `--dot-fill`. */
+.accent-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 0.45em;
+  vertical-align: middle;
+  background: var(--dot-fill);
+  box-shadow: 0 0 0 1px var(--fg-strong);
+}
 
 hr { border: none; border-top: 1px solid var(--border-strong); margin: 2.5rem 0; }
 
@@ -319,8 +374,16 @@ hr { border: none; border-top: 1px solid var(--border-strong); margin: 2.5rem 0;
 .fleetviz-node:nth-child(3) .fleetviz-dot { animation-delay: 0.5s; }
 .fleetviz-node:nth-child(4) .fleetviz-dot { animation-delay: 1s; }
 .fleetviz-node:nth-child(5) .fleetviz-dot { animation-delay: 1.5s; }
+/* Fill is per-role, not per-health-status -- there's no live health signal
+   yet (see FleetViz.tsx), so "two colors meaning up/down" would be fake
+   information. Four roles, four fills; the two Workstation nodes share cyan
+   because they're the same role, which is honest rather than padded. The
+   ring above makes every fill contrast-safe regardless of hue, so this was
+   free to extend past cyan/yellow without new contrast math. */
 .fleetviz-dot--cyan { background: var(--cyan); color: var(--cyan); }
 .fleetviz-dot--yellow { background: var(--yellow); color: var(--yellow); }
+.fleetviz-dot--blue { background: var(--blue); color: var(--blue); }
+.fleetviz-dot--green { background: var(--green); color: var(--green); }
 .fleetviz-node.is-hub .fleetviz-dot { width: 10px; height: 10px; }
 .fleetviz-role {
   font-family: var(--mono);
@@ -412,6 +475,12 @@ hr { border: none; border-top: 1px solid var(--border-strong); margin: 2.5rem 0;
   border-radius: 4px;
   padding: 0.18rem 0.5rem;
 }
+/* AI Engineering is the one featured, single-theme tag group (all three
+   chips are ai-native) -- a light violet wash instead of a dot-per-chip,
+   since repeating the same dot three times would just be noise. 12% mix
+   keeps fg-strong text at >=3.86:1 in both themes (verified), a small,
+   accepted step down from the untinted 4.39/4.86:1 baseline. */
+.tags--ai li { background: color-mix(in srgb, var(--accent-ai-native) 12%, var(--surface-1)); }
 .skill-group { margin: 0.6rem 0; }
 .skill-group .label {
   font-family: var(--sans);

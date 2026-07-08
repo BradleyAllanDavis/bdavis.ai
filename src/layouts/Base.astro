@@ -13,12 +13,16 @@ const {
   current,
 } = Astro.props;
 
+// accent: which per-page nav hue [data-accent] picks up on hover/active (see
+// global.css). Home/Resume intentionally omit it and fall through to the
+// default --link blue -- Resume already reads as "backend" in blue, and Home
+// is the site's identity color, not a themed section.
 const nav = [
   { href: '/', label: 'Home', key: 'home' },
   { href: '/bio', label: 'Bio', key: 'bio' }, // identity page, same as Home/Resume: no accent
   { href: '/resume', label: 'Resume', key: 'resume' },
-  { href: '/projects', label: 'Projects', key: 'projects' },
-  { href: '/now', label: 'Now', key: 'now' },
+  { href: '/projects', label: 'Projects', key: 'projects', accent: 'projects' },
+  { href: '/now', label: 'Now', key: 'now', accent: 'now' },
 ];
 ---
 <!doctype html>
@@ -53,6 +57,7 @@ const nav = [
           {nav.map((item) => (
             <a
               href={item.href}
+              data-accent={item.accent}
               aria-current={current === item.key ? 'page' : undefined}
             >{item.label}</a>
           ))}

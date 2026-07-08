@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import fleet from '../data/fleet.json';
 
-type Status = 'cyan' | 'yellow';
+type Status = 'cyan' | 'yellow' | 'blue' | 'green';
 type Node = { role: string; status: Status; hub?: boolean };
 type FleetData = { updated: string; nodes: Node[] };
 

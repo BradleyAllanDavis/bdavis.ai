@@ -3,8 +3,8 @@
   "nodes": [
     { "role": "Workstation", "status": "cyan" },
     { "role": "Workstation", "status": "cyan" },
-    { "role": "Storage", "status": "cyan" },
+    { "role": "Storage", "status": "blue" },
     { "role": "Edge / DNS", "status": "yellow", "hub": true },
-    { "role": "Linux Dev", "status": "cyan" }
+    { "role": "Linux Dev", "status": "green" }
   ]
 }

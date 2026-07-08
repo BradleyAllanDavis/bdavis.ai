@@ -39,12 +39,61 @@ export function md(s: string): string {
   return esc.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 }
 
+// Theme -> CSS accent-var key, mirroring the fixed map in global.css
+// (--accent-ai-native etc.). Keep in sync with the closed theme vocabulary
+// documented at the top of resume.yaml.
+const THEME_ACCENT: Record<string, string> = {
+  'ai-native': 'ai-native',
+  backend: 'backend',
+  'distributed-systems': 'distributed-systems',
+  infra: 'infra',
+  leadership: 'leadership',
+  payments: 'payments',
+  devex: 'devex',
+};
+
+// A role's "dominant" theme: sum each bullet's strength into every theme it
+// carries, take the highest total. Ties break on whichever theme appears
+// earliest in bullet order (first bullet, then first-listed theme within
+// that bullet) -- deterministic, and it favors the theme the role leads
+// with rather than an alphabetical accident.
+function dominantTheme(bullets: Bullet[]): string | undefined {
+  const weight = new Map<string, number>();
+  const firstSeen = new Map<string, number>();
+  let order = 0;
+  for (const b of bullets) {
+    for (const t of b.themes ?? []) {
+      weight.set(t, (weight.get(t) ?? 0) + (b.strength ?? 0));
+      if (!firstSeen.has(t)) firstSeen.set(t, order);
+      order++;
+    }
+  }
+  let best: string | undefined;
+  for (const [theme, w] of weight) {
+    if (
+      best === undefined ||
+      w > weight.get(best)! ||
+      (w === weight.get(best)! && firstSeen.get(theme)! < firstSeen.get(best)!)
+    ) {
+      best = theme;
+    }
+  }
+  return best;
+}
+
+export function accentKey(themes: string[] | undefined): string | undefined {
+  const primary = themes?.[0];
+  return primary ? THEME_ACCENT[primary] : undefined;
+}
+
 export const basics = data.basics;
 export const tagline = data.taglines.default;
 // All summary fragments, in authored order (web isn't one-page constrained).
 export const summary = data.summary_fragments;
 export const aiCapabilities = data.ai_engineering?.capabilities ?? [];
-export const experience = data.experience.filter((r) => !r.archive);
+export const experience = data.experience
+  .filter((r) => !r.archive)
+  .map((r) => ({ ...r, accentKey: THEME_ACCENT[dominantTheme(r.bullets) ?? ''] as string | undefined }));
 // Skip drafts, exactly like render.py — bdavis.ai hides itself until it's live.
 export const projects = data.projects.filter((p) => !p.draft);
 export const skillGroups = (() => {
