@@ -1,4 +1,8 @@
-/* Self-hosted variable mono — see "Mono" section below for why. */
+/* Self-hosted variable fonts. Same reasoning across all three: no Google
+   Fonts/CDN call at render time, and a variable font gives the weight range
+   in one file instead of five static cuts. */
+@import '@fontsource-variable/source-serif-4';
+@import '@fontsource-variable/ibm-plex-sans';
 @import '@fontsource-variable/jetbrains-mono';
 
 /* Solarized palette — values from ~/.dotfiles/modules/theme/solarized.nix */
@@ -20,8 +24,15 @@
   --cyan:   #2aa198;
   --green:  #859900;
 
-  --serif: Georgia, Cambria, "Times New Roman", serif;
-  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  /* Source Serif 4 for reading -- an actual editorial serif instead of the
+     default-feeling Georgia stack, still restrained (this is a resume site,
+     not a type specimen). IBM Plex Sans for structure/nav/labels -- a
+     grotesk with real engineering pedigree rather than another Inter clone,
+     and it sits well next to JetBrains Mono below (--mono is untouched;
+     the mono usage was already working). Both self-hosted variable fonts;
+     system fallbacks cover the font-load gap and non-JS edge cases. */
+  --serif: "Source Serif 4 Variable", Georgia, Cambria, "Times New Roman", serif;
+  --sans: "IBM Plex Sans Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   /* Sharper than the system default, and it's the same face the fallback chain
      in modules/theme/fonts.nix already reaches for on this machine's terminals. */
   --mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
