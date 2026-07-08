@@ -54,7 +54,6 @@
   --fg-strong: var(--base01);
   --fg-muted: #7c8a8a;
   --link: var(--blue);
-  --border-subtle: color-mix(in srgb, var(--base1) 30%, var(--bg) 70%);
   --border-strong: #e0d8c0;
   --accent: var(--cyan);
 }
@@ -69,7 +68,6 @@
     --fg-strong: var(--base1);
     --fg-muted: #6b7f80;
     --link: var(--blue);
-    --border-subtle: color-mix(in srgb, var(--base01) 30%, var(--bg) 70%);
     --border-strong: #0d3b46;
     --accent: var(--cyan);
   }
@@ -84,7 +82,6 @@
   --fg-strong: var(--base1);
   --fg-muted: #6b7f80;
   --link: var(--blue);
-  --border-subtle: color-mix(in srgb, var(--base01) 30%, var(--bg) 70%);
   --border-strong: #0d3b46;
   --accent: var(--cyan);
 }
@@ -96,7 +93,6 @@
   --fg-strong: var(--base01);
   --fg-muted: #7c8a8a;
   --link: var(--blue);
-  --border-subtle: color-mix(in srgb, var(--base1) 30%, var(--bg) 70%);
   --border-strong: #e0d8c0;
   --accent: var(--cyan);
 }
@@ -122,8 +118,7 @@ body {
   padding: 2.5rem 1.25rem 4rem;
 }
 
-/* Header / nav. The faint horizontal hairlines are the one deliberate texture
-   moment on the site -- scoped to this surface only, not repeated elsewhere. */
+/* Header / nav. */
 .site-head {
   display: flex;
   align-items: baseline;
@@ -134,13 +129,6 @@ body {
   border-bottom: 1px solid var(--border-strong);
   padding-bottom: 0.75rem;
   margin-bottom: 2.5rem;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    var(--border-subtle) 0,
-    var(--border-subtle) 1px,
-    transparent 1px,
-    transparent 5px
-  );
 }
 .site-head .brand {
   font-weight: 600;
