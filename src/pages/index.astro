@@ -9,7 +9,22 @@ const tiles = [
 ];
 ---
 <Base current="home">
-  <h1>Bradley Davis</h1>
+  <div class="hero">
+    <picture>
+      <source
+        type="image/webp"
+        srcset="/images/headshot-88.webp 1x, /images/headshot-176.webp 2x, /images/headshot-264.webp 3x"
+      />
+      <img
+        class="headshot"
+        src="/images/headshot-176.jpg"
+        width="88"
+        height="88"
+        alt="Bradley Davis"
+      />
+    </picture>
+    <h1>Bradley Davis</h1>
+  </div>
   <p class="lede">
     Senior backend engineer, ex-OKX, ex-Intuit. Building AI-native systems and agentic
     workflows on top of a five-machine Nix homelab.
