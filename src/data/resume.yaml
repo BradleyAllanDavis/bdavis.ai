@@ -82,9 +82,9 @@ summary_fragments:
 # -----------------------------------------------------------------------------
 ai_engineering:
   capabilities:
-    - MCP server authoring
-    - Agentic dev workflows
-    - Agent tooling & automation
+    - Agent Tooling & Automation
+    - Agentic Dev Workflows
+    - MCP Server Authoring
 
 # -----------------------------------------------------------------------------
 # Experience. Roles render newest-first. `bullets` is a pool; a profile selects
@@ -102,35 +102,32 @@ experience:
         themes: [leadership, distributed-systems, backend]
         strength: 5
         text: >-
-          Led Project Catalyst, the largest architectural effort in the
-          platform's history, decomposing the payment-orchestration monolith
-          into **five independently deployable modules** with semver-governed
-          DTO contracts, enabling decoupled team ownership, parallel
-          development, and lower-risk releases.
+          Led Project Catalyst, the platform's largest architectural effort,
+          decomposing the payment-orchestration monolith into **five
+          independently deployable modules** with semver-governed contracts,
+          enabling parallel team ownership and lower-risk releases.
       - id: ai-dev
         themes: [ai-native, devex]
         strength: 5
         text: >-
-          Drove the team's adoption of AI-assisted development, using agentic
-          coding tools to deliver large-scale work including a **JUnit 5
-          migration across roughly 1,100 test files** and the Catalyst module
-          decomposition.
+          Drove team adoption of AI-assisted development, using agentic coding
+          tools for large-scale work including a **JUnit 5 migration across
+          ~1,100 test files** and the Catalyst decomposition.
       - id: payment-common
         themes: [backend, leadership, distributed-systems]
         strength: 5
         text: >-
-          Built the shared payments library from the ground up as tech lead
-          (Temporal workflow infrastructure, alerting, customer notifications,
-          OpenTelemetry, and core utilities), **adopted by every service** across
-          the payments platform.
+          Built the shared payments library from scratch as tech lead
+          (Temporal workflows, alerting, notifications, OpenTelemetry, core
+          utilities), **adopted platform-wide**.
       - id: recon
         themes: [distributed-systems, backend, payments]
         strength: 5
         text: >-
-          Designed and built the platform's internal and external reconciliation
-          engines: Kafka-based event processing with multi-region scheduling,
-          1-to-N status mapping, and automated alerting, reconciling **millions
-          of transactions** across all payment-provider integrations.
+          Built the platform's internal and external reconciliation engines:
+          Kafka-based event processing, multi-region scheduling, 1-to-N status
+          mapping, and automated alerting, reconciling **millions of
+          transactions** across all payment providers.
       - id: fee-center
         themes: [backend, payments]
         strength: 4
@@ -158,10 +155,10 @@ experience:
         themes: [backend, payments, distributed-systems]
         strength: 3
         text: >-
-          Built the OpenPayd integration as the first channel on a new
-          payment-gateway architecture (webhook signature verification, account
-          creation, deposit and withdrawal flows, Kafka events), establishing
-          integration patterns still used today.
+          Built OpenPayd, the first channel on a new payment-gateway
+          architecture (signature verification, account/deposit/withdrawal
+          flows, Kafka events), establishing patterns the platform still
+          relies on.
       - id: card
         themes: [backend]
         strength: 2
@@ -187,8 +184,7 @@ experience:
         strength: 3
         text: >-
           Extended the webhooks ecosystem across QuickBooks Online, Revenue
-          Platform, and Payroll domain events, powering the launch of QBO
-          Advanced.
+          Platform, and Payroll domain events, powering QBO Advanced's launch.
       - id: tracing
         themes: [distributed-systems, infra]
         strength: 3
@@ -249,25 +245,25 @@ projects:
       secrets, networking, and home automation. AI agents edit and deploy it
       daily; preflight guards abort any remote deploy from a dirty or
       unpushed tree.
-  - id: mcp
-    name: MCP Servers
-    themes: [ai-native, backend]
-    strength: 5
-    url: https://github.com/BradleyAllanDavis/things-turbo
-    text: >-
-      10+ Model Context Protocol servers in daily use, spanning authored
-      (things-turbo, published) and hardened third-party, exposing home,
-      finance, and infrastructure systems as agent-callable tools. Write paths
-      are permission-scoped and credential reads are tamper-monitored.
   - id: homelab
     name: Self-Hosted Homelab
     themes: [infra, distributed-systems]
     strength: 4
     text: >-
-      Bitcoin and Lightning node, Pi-hole DNS, Home Assistant, and ZFS
-      replication with restic backups across a UniFi network. Monitored with
-      Prometheus and Grafana; agents operate the stack day to day through the
-      same MCP layer.
+      Bitcoin Core and Core Lightning node, self-hosted git (Forgejo), DNS
+      (Pi-hole), Home Assistant, and a media stack, backed by ZFS-replicated
+      storage with restic backups and monitored via Prometheus and Grafana
+      across a UniFi network.
+  - id: mcp
+    name: MCP Servers
+    themes: [ai-native, backend]
+    strength: 3
+    url: https://github.com/BradleyAllanDavis/things-turbo
+    text: >-
+      10+ Model Context Protocol servers (authored and hardened third-party)
+      exposing home, finance, and infrastructure systems as agent-callable
+      tools, with permission-scoped writes and tamper-monitored credential
+      reads.
   # Site went live 2026-07-06.
   - id: site
     name: bdavis.ai
@@ -286,7 +282,7 @@ skill_groups:
     themes: [ai-native]
     strength: 5
     pinned: true
-    tags: [Claude Code, Cursor, Claude Agent SDK, Anthropic API, ChatGPT, Gemini]
+    tags: [Claude Code, Claude Agent SDK, Anthropic API, Cursor, ChatGPT, Gemini]
   - name: Backend
     themes: [backend]
     strength: 5
@@ -298,15 +294,15 @@ skill_groups:
   - name: Cloud & Infra
     themes: [infra]
     strength: 4
-    tags: [AWS, Alibaba Cloud, Docker, Kubernetes, NixOS, Linux]
+    tags: [AWS, GCP, Docker, Kubernetes, NixOS, Linux]
   - name: DevOps
     themes: [infra, devex]
     strength: 3
-    tags: [CI/CD, Git, GitHub/GitLab, ArgoCD, Jenkins, Prometheus]
+    tags: [CI/CD, Git, GitHub/GitLab, ArgoCD, GitOps, Jenkins, Prometheus, Grafana]
   - name: Domains
     themes: [payments]
     strength: 3
-    tags: [Payments, Fintech, Accounting, Financial Systems]
+    tags: [Financial Systems, Payments, Fintech, Accounting]
   - name: Leadership
     themes: [leadership]
     strength: 3
