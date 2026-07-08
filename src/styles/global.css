@@ -242,6 +242,91 @@ hr { border: none; border-top: 1px solid var(--border-strong); margin: 2.5rem 0;
 }
 .tile .tile-desc { color: var(--fg-muted); font-size: var(--text-sm); }
 
+/* Fleet-viz — signature panel: five role-labeled homelab nodes on a thin
+   connecting line. Role labels only, no hostnames/IPs/topology (see
+   ~/.dotfiles/docs/philosophy.md's scarcity rule). Static fallback and the
+   fetched payload are the same data, so hydration never changes what's on
+   screen. */
+.fleetviz {
+  background: var(--surface-1);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 1rem 1.1rem 1.2rem;
+  margin: 1.75rem 0;
+}
+.fleetviz-caption {
+  font-family: var(--mono);
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  margin: 0 0 1.4rem;
+}
+.fleetviz-row {
+  position: relative;
+  display: flex;
+  gap: 1.25rem;
+  padding-top: 0.6rem;
+  overflow-x: auto;
+}
+.fleetviz-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 1.4rem;
+  height: 1px;
+  background: var(--border-strong);
+}
+.fleetviz-node {
+  position: relative;
+  flex: 1 0 5.5rem;
+  min-width: 5.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+}
+/* A solid 1px ring in --fg-strong keeps every dot's edge at >=4.3:1 contrast
+   against the panel surface in both themes, independent of fill hue -- the
+   Solarized cyan/yellow fills alone measure ~2.6:1 on light surface-1, under
+   the 3:1 WCAG 1.4.11 floor for graphical objects. The animation pulses an
+   outer glow (via currentColor) rather than fading opacity, so the ring+fill
+   stays at full contrast at every animation frame. */
+.fleetviz-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--fg-strong), 0 0 0 0 color-mix(in srgb, currentColor 0%, transparent);
+  animation: fleetviz-pulse 3.2s ease-in-out infinite;
+}
+.fleetviz-node:nth-child(3) .fleetviz-dot { animation-delay: 0.5s; }
+.fleetviz-node:nth-child(4) .fleetviz-dot { animation-delay: 1s; }
+.fleetviz-node:nth-child(5) .fleetviz-dot { animation-delay: 1.5s; }
+.fleetviz-dot--cyan { background: var(--cyan); color: var(--cyan); }
+.fleetviz-dot--yellow { background: var(--yellow); color: var(--yellow); }
+.fleetviz-node.is-hub .fleetviz-dot { width: 10px; height: 10px; }
+.fleetviz-role {
+  font-family: var(--mono);
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+}
+@keyframes fleetviz-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px var(--fg-strong), 0 0 0 0 color-mix(in srgb, currentColor 0%, transparent); }
+  50% { box-shadow: 0 0 0 1px var(--fg-strong), 0 0 0 4px color-mix(in srgb, currentColor 25%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fleetviz-dot { animation: none; }
+}
+/* Below ~480px five items in one row don't fit without clipping or a scroll
+   affordance a phone visitor might not notice. Wrap into two centered rows
+   instead -- the connecting line only makes sense for a single row, so it's
+   dropped here rather than drawn broken across the wrap. */
+@media (max-width: 480px) {
+  .fleetviz-row { flex-wrap: wrap; overflow-x: visible; justify-content: center; row-gap: 1.1rem; gap: 0.9rem; }
+  .fleetviz-line { display: none; }
+  .fleetviz-node { flex: 0 1 5.6rem; min-width: 0; }
+  .fleetviz-role { font-size: var(--text-2xs); }
+}
+
 /* Resume */
 .resume-meta {
   font-family: var(--sans);

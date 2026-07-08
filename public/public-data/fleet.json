@@ -1,0 +1,10 @@
+{
+  "updated": "2026-07-08",
+  "nodes": [
+    { "role": "Workstation", "status": "cyan" },
+    { "role": "Workstation", "status": "cyan" },
+    { "role": "Storage", "status": "cyan" },
+    { "role": "Edge / DNS", "status": "yellow", "hub": true },
+    { "role": "Linux Dev", "status": "cyan" }
+  ]
+}

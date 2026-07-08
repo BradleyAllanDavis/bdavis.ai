@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import FleetViz from '../components/FleetViz';
 
 const tiles = [
   { href: '/resume', name: 'Resume', desc: 'Experience, projects, and skills. PDF download.' },
@@ -13,6 +14,8 @@ const tiles = [
     Senior backend engineer, ex-OKX, ex-Intuit. Building AI-native systems and agentic
     workflows on top of a five-machine Nix homelab.
   </p>
+  <FleetViz client:visible />
+
   <p class="muted">
     Seven years on event-driven payment and platform systems in Java, Spring, and
     Kafka. Now working on MCP servers, multi-agent orchestration, and LLM-app
