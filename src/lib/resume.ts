@@ -45,7 +45,7 @@ export const tagline = data.taglines.default;
 export const summary = data.summary_fragments;
 export const aiCapabilities = data.ai_engineering?.capabilities ?? [];
 export const experience = data.experience.filter((r) => !r.archive);
-// Skip drafts, exactly like render.py — bdavis.io hides itself until it's live.
+// Skip drafts, exactly like render.py — bdavis.ai hides itself until it's live.
 export const projects = data.projects.filter((p) => !p.draft);
 export const skillGroups = (() => {
   const pinned = data.skill_groups.filter((g) => g.pinned);
