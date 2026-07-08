@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Icon from '../components/Icon.astro';
 
 interface Props {
   title?: string;
@@ -14,6 +15,7 @@ const {
 
 const nav = [
   { href: '/', label: 'Home', key: 'home' },
+  { href: '/bio', label: 'Bio', key: 'bio' }, // identity page, same as Home/Resume: no accent
   { href: '/resume', label: 'Resume', key: 'resume' },
   { href: '/projects', label: 'Projects', key: 'projects' },
   { href: '/now', label: 'Now', key: 'now' },
@@ -65,13 +67,12 @@ const nav = [
       </main>
 
       <footer class="site-foot">
-        <span>Bradley Davis</span>
-        <span>
+        <span>&copy; {new Date().getFullYear()}</span>
+        <span class="social-links">
           <a href="mailto:hire@bdavis.ai">hire@bdavis.ai</a>
-          &nbsp;·&nbsp;
-          <a href="https://github.com/BradleyAllanDavis">GitHub</a>
-          &nbsp;·&nbsp;
-          <a href="https://www.linkedin.com/in/BradleyAllanDavis">LinkedIn</a>
+          <a href="https://github.com/BradleyAllanDavis" aria-label="GitHub"><Icon name="github" size={16} /></a>
+          <a href="https://www.linkedin.com/in/BradleyAllanDavis" aria-label="LinkedIn"><Icon name="linkedin" size={16} /></a>
+          <a href="https://x.com/BradleyADavis" aria-label="X (Twitter)"><Icon name="x" size={16} /></a>
         </span>
       </footer>
     </div>

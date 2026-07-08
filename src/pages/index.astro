@@ -3,28 +3,14 @@ import Base from '../layouts/Base.astro';
 import FleetViz from '../components/FleetViz';
 
 const tiles = [
+  { href: '/bio', name: 'Bio', desc: 'Career story, background, and life outside the keyboard.' },
   { href: '/resume', name: 'Resume', desc: 'Experience, projects, and skills. PDF download.' },
   { href: '/projects', name: 'Projects', desc: 'A Nix control plane, MCP servers in daily use, a self-hosted homelab.' },
   { href: '/now', name: 'Now', desc: 'What I am working on at the moment.' },
 ];
 ---
 <Base current="home">
-  <div class="hero">
-    <picture>
-      <source
-        type="image/webp"
-        srcset="/images/headshot-88.webp 1x, /images/headshot-176.webp 2x, /images/headshot-264.webp 3x"
-      />
-      <img
-        class="headshot"
-        src="/images/headshot-176.jpg"
-        width="88"
-        height="88"
-        alt=""
-      />
-    </picture>
-    <h1>Bradley Davis</h1>
-  </div>
+  <h1>Bradley Davis</h1>
   <p class="lede">
     Senior backend engineer, ex-OKX, ex-Intuit. Building AI-native systems and agentic
     workflows on top of a five-machine Nix homelab.

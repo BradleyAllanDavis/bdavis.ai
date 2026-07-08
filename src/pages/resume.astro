@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 import {
   basics, tagline, summary, aiCapabilities, experience,
   projects, skillGroups, education, beyondKeyboard, md,
@@ -9,11 +10,12 @@ import {
   <div class="resume">
     <h1>{basics.name}</h1>
     <p class="resume-meta">{tagline}</p>
-    <p class="resume-meta">
-      <a href={`mailto:${basics.email}`}>{basics.email}</a>
-      &nbsp;·&nbsp;<a href={`https://github.com/${basics.github}`}>github.com/{basics.github}</a>
-      &nbsp;·&nbsp;<a href={`https://www.linkedin.com/in/${basics.linkedin}`}>linkedin.com/in/{basics.linkedin}</a>
-      {basics.location && <>&nbsp;·&nbsp;{basics.location}</>}
+    <p class="resume-meta resume-links">
+      <a href={`mailto:${basics.email}`}><Icon name="mail" size={14} /> {basics.email}</a>
+      <a href={`https://github.com/${basics.github}`}><Icon name="github" size={14} /> GitHub</a>
+      <a href={`https://www.linkedin.com/in/${basics.linkedin}`}><Icon name="linkedin" size={14} /> LinkedIn</a>
+      <a href="https://x.com/BradleyADavis"><Icon name="x" size={14} /> X</a>
+      {basics.location && <span>{basics.location}</span>}
     </p>
     <a class="dl" href="/resume.pdf">Download PDF</a>
 

@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base
+  title="Bio — Bradley Davis"
+  current="bio"
+  description="Bradley Davis's career story: from oilfield field engineer to senior backend engineer to AI-native builder."
+>
+  <div class="hero">
+    <picture>
+      <source
+        type="image/webp"
+        srcset="/images/headshot-88.webp 1x, /images/headshot-176.webp 2x, /images/headshot-264.webp 3x"
+      />
+      <img
+        class="headshot"
+        src="/images/headshot-176.jpg"
+        width="88"
+        height="88"
+        alt=""
+      />
+    </picture>
+    <h1>Bio</h1>
+  </div>
+
+  <p class="lede">
+    Senior backend engineer turned AI-native builder. Seven years shipping
+    production payment and platform systems before pivoting into agentic
+    engineering full time.
+  </p>
+
+  <p>
+    I got here sideways. Before software, I supervised measurement-while-drilling
+    operations on oil rigs, wrote coreboot and UEFI firmware for embedded x86
+    boards, and built an ELK-stack log pipeline for Cray's HPC systems. A
+    master's in computer science at UW-Madison (distributed systems, machine
+    learning, big data) turned that detour into a real engineering career:
+    three years on QuickBooks' webhooks infrastructure at Intuit (10-20M
+    notifications a day at 99.9% reliability), then four years leading the
+    largest architectural effort on OKX's fiat payments platform (30+ payment
+    providers across APAC, EU, and the US).
+  </p>
+
+  <p>
+    I left OKX in May 2026 after four years building its fiat payments
+    platform, and I have used the time since to go all-in on the shift I
+    already saw coming: agentic engineering. MCP servers, multi-agent
+    orchestration, LLM-app architecture, the patterns that hold up outside a
+    demo. I run all of it off a five-machine, Nix-managed homelab (Bitcoin
+    and Lightning, Pi-hole DNS, Home Assistant, ZFS replication) that doubles
+    as a daily proving ground for whatever I am building.
+  </p>
+
+  <p>
+    Off the keyboard: an Eagle Scout who once saved a life with CPR, a
+    former ski instructor, two small kids, a new house, and a front yard I am
+    slowly bringing back from the dead.
+  </p>
+
+  <p class="muted">
+    Full history on the <a href="/resume">resume</a>. Reach me at
+    <a href="mailto:hire@bdavis.ai">hire@bdavis.ai</a>.
+  </p>
+</Base>
