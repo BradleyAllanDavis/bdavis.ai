@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import stats from '../../public-data/stats.json';
 
 // Update this date when you revise the page (convention from nownownow.com).
 const updated = 'June 2026';
@@ -7,6 +8,9 @@ const updated = 'June 2026';
 <Base title="Now — Bradley Davis" current="now" description="What Bradley Davis is working on right now.">
   <h1>Now</h1>
   <p class="muted sans" style="font-size:var(--text-2xs);">Updated {updated}.</p>
+  <p class="muted sans" style="font-size:var(--text-2xs);">
+    {stats.fleet_machine_count} machines, {stats.mcp_server_count} MCP servers, {stats.homelab_service_count} homelab services — last touched {stats.last_updated}.
+  </p>
 
   <p>
     I left OKX in May 2026 after four years building its fiat payments platform.
