@@ -33,12 +33,13 @@ import {
 
     <h2>Experience</h2>
     {experience.map((role) => (
-      <section>
+      <section
+        class={role.accentKey ? 'accent-edge' : undefined}
+        style={role.accentKey ? `--dot-fill: var(--accent-${role.accentKey})` : undefined}
+      >
         <div class="role-head">
           <h3>
-            {role.accentKey && (
-              <span class="accent-dot" style={`--dot-fill: var(--accent-${role.accentKey})`} aria-hidden="true" />
-            )}
+            {role.accentKey && <span class="accent-dot" aria-hidden="true" />}
             {role.url ? <a href={role.url}>{role.company}</a> : role.company}
             <span class="muted"> — </span><Fragment set:html={md(role.title)} />
           </h3>
@@ -55,10 +56,11 @@ import {
       <>
         <h2>Selected Projects</h2>
         {projects.map((p) => (
-          <p>
-            {accentKey(p.themes) && (
-              <span class="accent-dot" style={`--dot-fill: var(--accent-${accentKey(p.themes)})`} aria-hidden="true" />
-            )}
+          <p
+            class={accentKey(p.themes) ? 'accent-edge' : undefined}
+            style={accentKey(p.themes) ? `--dot-fill: var(--accent-${accentKey(p.themes)})` : undefined}
+          >
+            {accentKey(p.themes) && <span class="accent-dot" aria-hidden="true" />}
             <strong class="sans">{p.name}.</strong> <Fragment set:html={md(p.text)} />
           </p>
         ))}
@@ -67,11 +69,12 @@ import {
 
     <h2>Skills</h2>
     {skillGroups.map((g) => (
-      <div class="skill-group">
+      <div
+        class={`skill-group${accentKey(g.themes) ? ' accent-edge' : ''}`}
+        style={accentKey(g.themes) ? `--dot-fill: var(--accent-${accentKey(g.themes)})` : undefined}
+      >
         <span class="label">
-          {accentKey(g.themes) && (
-            <span class="accent-dot" style={`--dot-fill: var(--accent-${accentKey(g.themes)})`} aria-hidden="true" />
-          )}
+          {accentKey(g.themes) && <span class="accent-dot" aria-hidden="true" />}
           {g.name}:
         </span> {g.tags.join(', ')}
       </div>

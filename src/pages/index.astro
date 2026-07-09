@@ -2,11 +2,14 @@
 import Base from '../layouts/Base.astro';
 import FleetViz from '../components/FleetViz';
 
+// accent: same key Base.astro's nav uses, so a tile's hover border previews
+// the color you're about to land on (see global.css [data-accent] rules).
+// Bio has none, matching Home/Bio staying unaccented identity pages.
 const tiles = [
   { href: '/bio', name: 'Bio', desc: 'Career story, background, and life outside the keyboard.' },
-  { href: '/resume', name: 'Resume', desc: 'Experience, projects, and skills. PDF download.' },
-  { href: '/projects', name: 'Projects', desc: 'A Nix control plane, MCP servers in daily use, a self-hosted homelab.' },
-  { href: '/now', name: 'Now', desc: 'What I am working on at the moment.' },
+  { href: '/resume', name: 'Resume', desc: 'Experience, projects, and skills. PDF download.', accent: 'resume' },
+  { href: '/projects', name: 'Projects', desc: 'A Nix control plane, MCP servers in daily use, a self-hosted homelab.', accent: 'projects' },
+  { href: '/now', name: 'Now', desc: 'What I am working on at the moment.', accent: 'now' },
 ];
 ---
 <Base current="home">
@@ -26,7 +29,7 @@ const tiles = [
   <ul class="tiles">
     {tiles.map((t) => (
       <li>
-        <a class="tile" href={t.href}>
+        <a class="tile" href={t.href} data-accent={t.accent}>
           <span class="tile-name">{t.name}</span>
           <div class="tile-desc">{t.desc}</div>
         </a>

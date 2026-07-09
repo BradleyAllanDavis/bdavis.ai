@@ -42,9 +42,9 @@ const projects = [
   </p>
 
   {projects.map((p) => (
-    <section>
+    <section class="accent-edge" style={`--dot-fill: var(--accent-${p.themes[0]})`}>
       <h3>
-        <span class="accent-dot" style={`--dot-fill: var(--accent-${p.themes[0]})`} aria-hidden="true" />
+        <span class="accent-dot" aria-hidden="true" />
         {p.link ? <a href={p.link}>{p.name}</a> : p.name}
       </h3>
       <p>{p.desc}</p>

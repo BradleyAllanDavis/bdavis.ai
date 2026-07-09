@@ -174,25 +174,60 @@ body {
 .site-nav a {
   color: var(--fg);
   text-decoration: none;
-  padding-bottom: 0.2rem;
+  /* Horizontal padding + matching negative margin: gives the active-pill
+     background (below) breathing room around the text instead of hugging
+     the glyphs, without widening the link's actual layout box or changing
+     inter-item spacing -- padding and margin cancel exactly. */
+  padding: 0.15rem 0.35rem 0.2rem;
+  margin: -0.15rem -0.35rem 0;
   border-bottom: 1px solid transparent;
 }
 .site-nav a:hover,
 .site-nav a[aria-current="page"] { color: var(--link); }
 .site-nav a[aria-current="page"] { border-bottom-color: var(--link); }
-/* Per-page nav accent -- Home/Resume keep the site's default link blue
-   (identity + backend, unchanged); Projects/Now get their own hue so the
-   active/hover state itself carries section identity instead of one color
-   for every link. Restricted to orange/violet: verified >=3.2:1 against both
-   theme backgrounds (WCAG relative-luminance), matching or beating the
-   existing blue-link baseline (~3.0-3.4:1) rather than reaching for
-   cyan/yellow/green, which measure under 3:1 on Solarized Light's bg. */
+/* Per-page nav accent -- Home/Bio stay unaccented (identity pages, no
+   section to color); Resume/Projects/Now each get a hue that now runs the
+   whole page (see [data-page-accent] below for the h1/h2 tie-in). Resume
+   reuses --link blue rather than a new tint -- it was already the site's
+   default accent, so it needed no separate rule here.
+   Projects/Now (orange/violet) additionally get a background wash on the
+   active pill, verified >=3.1:1 text-vs-wash at 8% mix in both themes
+   (WCAG relative-luminance) -- past ~10-12% the wash and the same-hue text
+   converge and start eating the margin, so 8% is deliberately conservative,
+   not a rounder number. orange/violet were kept (not cyan/yellow/green):
+   those measure under 3:1 as literal text against Solarized Light's bg. */
 .site-nav a[data-accent="projects"]:hover,
 .site-nav a[data-accent="projects"][aria-current="page"] { color: var(--orange); }
-.site-nav a[data-accent="projects"][aria-current="page"] { border-bottom-color: var(--orange); }
+.site-nav a[data-accent="projects"][aria-current="page"] {
+  border-bottom-color: var(--orange);
+  background: color-mix(in srgb, var(--orange) 8%, transparent);
+  border-radius: 4px 4px 0 0;
+}
 .site-nav a[data-accent="now"]:hover,
 .site-nav a[data-accent="now"][aria-current="page"] { color: var(--violet); }
-.site-nav a[data-accent="now"][aria-current="page"] { border-bottom-color: var(--violet); }
+.site-nav a[data-accent="now"][aria-current="page"] {
+  border-bottom-color: var(--violet);
+  background: color-mix(in srgb, var(--violet) 8%, transparent);
+  border-radius: 4px 4px 0 0;
+}
+
+/* Page-level accent -- ties the nav hue to the page's own h1/h2 rules,
+   set once via [data-page-accent] on <body> (Base.astro) instead of
+   threading a prop through every heading. Home/Bio have no attribute so
+   they fall through to the neutral --border-strong rule already on h2 (h1
+   has no border there -- unaccented h1 stays bare, as before). h2 already
+   has a border to recolor; h1 gets one added only on accented pages, so
+   Home/Bio's h1 is untouched. */
+body[data-page-accent] h1 {
+  border-bottom: 2px solid var(--border-strong);
+  padding-bottom: 0.3rem;
+}
+body[data-page-accent="resume"] h1,
+body[data-page-accent="resume"] h2 { border-bottom-color: var(--blue); }
+body[data-page-accent="projects"] h1,
+body[data-page-accent="projects"] h2 { border-bottom-color: var(--orange); }
+body[data-page-accent="now"] h1,
+body[data-page-accent="now"] h2 { border-bottom-color: var(--violet); }
 
 .theme-toggle {
   background: none;
@@ -272,7 +307,12 @@ code {
    against both --bg and --surface-1 (verified >=4.3:1 in both themes), so
    the fill color itself can be any of the 7 semantic theme accents without
    re-deriving contrast per hue. Fill color is set inline per instance via
-   `--dot-fill`. */
+   `--dot-fill`. IMPORTANT: .accent-edge (below) relies on this dot being
+   present and visible wherever it's used -- the edge's border color is
+   *not* independently contrast-verified (it's decorative reinforcement,
+   exempt from WCAG 1.4.11 only because this compliant dot already conveys
+   the same info). Don't hide/remove a dot at some breakpoint without also
+   dropping its paired .accent-edge, or the exemption's premise breaks. */
 .accent-dot {
   display: inline-block;
   width: 7px;
@@ -284,7 +324,45 @@ code {
   box-shadow: 0 0 0 1px var(--fg-strong);
 }
 
+/* Accent edge -- left-border reinforcement for the same per-entry accent,
+   applied to the entry's whole containing block (role/project/skill-group)
+   rather than just the heading text. Pairs with .accent-dot via the same
+   inherited `--dot-fill` custom property set once on the container, so
+   markup only sets the color in one place. This is decorative: the dot
+   above is the WCAG-compliant signal (ring-protected, >=4.3:1 regardless of
+   hue); the edge is reinforcement, which is why it's fine to run the full
+   7-color range here even though cyan/yellow/green measure ~2.9-3.0:1
+   against Solarized Light's plain background -- still clearly visible,
+   just not relied on alone. Negative margin cancels the padding so body
+   text stays flush with the rest of the page; only the bar shifts into the
+   existing gutter. */
+.accent-edge {
+  border-left: 3px solid var(--dot-fill);
+  padding-left: 0.85rem;
+  margin-left: -0.85rem;
+}
+
 hr { border: none; border-top: 1px solid var(--border-strong); margin: 2.5rem 0; }
+
+/* /now's focus list -- the accent-dot replaces the default bullet marker
+   (list-style: none) instead of sitting next to it, so it's one marker, not
+   two. The one item with no clear theme (family/house) gets a neutral
+   --fg-muted dot rather than no dot, so all four items stay aligned instead
+   of the last one drifting flush-left. */
+.now-focus {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.3rem 0 1rem;
+}
+.now-focus li {
+  margin: 0.6rem 0;
+  /* Hanging indent: the dot sits on line 1 (text-indent pulls it back to the
+     left edge); wrapped lines land at padding-left, under the text rather
+     than under the dot. Matches the dot's own footprint (7px + 0.45em
+     margin-right at the 18px body size). */
+  padding-left: 1.05em;
+  text-indent: -1.05em;
+}
 
 /* Landing link tiles */
 .tiles {
@@ -306,8 +384,18 @@ hr { border: none; border-top: 1px solid var(--border-strong); margin: 2.5rem 0;
 }
 /* Hover lifts toward the page bg (surface-2 is "sunken", i.e. closer to --bg)
    rather than darkening further -- reads as a highlight, and it measures
-   better for the muted description text than a darker fill would. */
+   better for the muted description text than a darker fill would. Border
+   color on hover matches the destination page's own accent (same map as
+   the nav/heading accent), so the homepage tiles preview which color
+   you're about to land on. Home/Bio tiles have no data-accent and fall
+   through to the default --link blue. Verified against surface-2 in both
+   themes: worst case is orange on dark surface-2 at 3.05:1 -- clears the
+   3:1 WCAG 1.4.11 floor but with a thin margin; blue and violet both clear
+   3.2:1 or better in both themes. */
 .tile:hover { background: var(--surface-2); border-color: var(--link); text-decoration: none; }
+.tile[data-accent="resume"]:hover { border-color: var(--blue); }
+.tile[data-accent="projects"]:hover { border-color: var(--orange); }
+.tile[data-accent="now"]:hover { border-color: var(--violet); }
 .tile .tile-name {
   font-family: var(--sans);
   font-weight: 600;
@@ -476,12 +564,28 @@ hr { border: none; border-top: 1px solid var(--border-strong); margin: 2.5rem 0;
   padding: 0.18rem 0.5rem;
 }
 /* AI Engineering is the one featured, single-theme tag group (all three
-   chips are ai-native) -- a light violet wash instead of a dot-per-chip,
-   since repeating the same dot three times would just be noise. 12% mix
-   keeps fg-strong text at >=3.86:1 in both themes (verified), a small,
-   accepted step down from the untinted 4.39/4.86:1 baseline. */
-.tags--ai li { background: color-mix(in srgb, var(--accent-ai-native) 12%, var(--surface-1)); }
+   chips are ai-native) -- a violet wash plus a matching border instead of a
+   dot-per-chip, since repeating the same dot three times would just be
+   noise. 18% mix keeps fg-strong text at ~3.6:1 light / ~4.0:1 dark
+   (verified, comfortably clear of the 3:1 floor and above the site's own
+   accepted ~2.9-3:1 muted-text baseline), up from an earlier, more
+   conservative 12% (3.86/4.32:1) now that the brief is "richer," not
+   "minimal." The border
+   is decorative (paired with legible text, not required to read the chip),
+   so it doesn't need its own contrast floor. */
+.tags--ai li {
+  background: color-mix(in srgb, var(--accent-ai-native) 18%, var(--surface-1));
+  border: 1px solid color-mix(in srgb, var(--accent-ai-native) 45%, transparent);
+}
 .skill-group { margin: 0.6rem 0; }
+/* .skill-group's `margin: 0.6rem 0` shorthand also sets margin-left: 0,
+   which otherwise beats .accent-edge's margin-left: -0.85rem (same
+   specificity, .skill-group declared later) and leaves the padding applied
+   with no compensating pull -- the whole Skills section would sit ~0.85rem
+   right of every other section. This re-asserts the pull on the combined
+   selector, which wins on specificity (0,2,0 > 0,1,0) regardless of source
+   order. */
+.skill-group.accent-edge { margin-left: -0.85rem; }
 .skill-group .label {
   font-family: var(--sans);
   font-weight: 600;
