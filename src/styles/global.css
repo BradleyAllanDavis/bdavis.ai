@@ -238,17 +238,31 @@ body[data-page-accent="now"] h1,
 body[data-page-accent="now"] h2 { border-bottom-color: var(--violet); }
 
 .theme-toggle {
+  display: flex;
+  align-items: center;
   background: none;
   border: 1px solid var(--border-strong);
   color: var(--fg-muted);
   border-radius: 4px;
-  font-family: var(--sans);
-  font-size: var(--text-xs);
-  padding: 0.15rem 0.5rem;
+  padding: 0.3rem;
   cursor: pointer;
-  line-height: 1.4;
+  line-height: 0;
 }
 .theme-toggle:hover { color: var(--link); border-color: var(--link); }
+/* Sun shows in dark mode (affordance to switch to light); moon shows in
+   light mode (affordance to switch to dark). Same media-query-then-explicit-
+   override shape as the color tokens above: OS preference by default,
+   [data-theme] wins once the toggle sets one explicitly. */
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: flex; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: flex; }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+}
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: flex; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display: flex; }
 
 /* Headings */
 h1, h2, h3 {

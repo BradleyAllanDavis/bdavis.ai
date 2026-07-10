@@ -71,7 +71,8 @@ const pageAccent = nav.find((n) => n.key === current)?.accent;
             >{item.label}</a>
           ))}
           <button class="theme-toggle" type="button" aria-label="Toggle color theme" data-theme-toggle>
-            theme
+            <span class="icon-sun"><Icon name="sun" size={16} /></span>
+            <span class="icon-moon"><Icon name="moon" size={16} /></span>
           </button>
         </nav>
       </header>
@@ -100,10 +101,16 @@ const pageAccent = nav.find((n) => n.key === current)?.accent;
           if (explicit) return explicit;
           return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
+        function updateLabel() {
+          var next = current() === 'dark' ? 'light' : 'dark';
+          btn.setAttribute('aria-label', 'Switch to ' + next + ' theme');
+        }
+        updateLabel();
         btn.addEventListener('click', function () {
           var next = current() === 'dark' ? 'light' : 'dark';
           document.documentElement.setAttribute('data-theme', next);
           try { localStorage.setItem('theme', next); } catch (e) {}
+          updateLabel();
         });
       })();
     </script>
