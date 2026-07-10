@@ -1,0 +1,116 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base
+  title='"unable to open database file": surviving macOS app-data protection in an MCP server — Bradley Davis'
+  current="writing"
+  description="Every Claude Code session's Things reads died at the same instant with the same SQLite error. The cause was macOS TCC quietly revoking file access mid-session, not the database."
+>
+  <p class="muted sans" style="font-size:var(--text-xs);"><a href="/writing"><span aria-hidden="true">&larr; </span>Writing</a></p>
+  <h1>"unable to open database file": surviving macOS app-data protection in an MCP server</h1>
+  <p class="muted sans" style="font-size:var(--text-xs);">July 10, 2026</p>
+
+  <p>
+    On July 2nd, every Claude Code session I had running started failing at
+    once. Every read against my Things todo list threw the same error:
+    <code>sqlite3.OperationalError: unable to open database file</code>.
+    Writes kept working. Reads didn't. Across every session, all at the same
+    time.
+  </p>
+
+  <p>
+    I run an MCP server that reads the Things 3 SQLite database directly off
+    disk, since Things has no read API of its own. So the first suspects
+    were the obvious ones for a SQLite file under concurrent access: file
+    descriptor exhaustion from too many long-lived sessions, a WAL
+    checkpoint race, a dead writer leaving the WAL in a bad state.
+  </p>
+
+  <p>
+    None of them held up. I hammered the read path with 6 processes times 8
+    threads each and couldn't reproduce it. I simulated a crash mid-write
+    and the WAL recovered fine on its own. Whatever this was, it wasn't the
+    database engine's problem.
+  </p>
+
+  <p>
+    The tell came from a much dumber test. <code>/bin/ls</code> on the
+    database file worked. <code>/usr/bin/sqlite3</code> opening the same
+    path, same permissions, same moment, got "authorization denied." Access
+    would flip within a single shell session, over the course of minutes,
+    with nothing else changing.
+  </p>
+
+  <p>That's not a filesystem problem. That's TCC.</p>
+
+  <p>
+    macOS 15 added App Group Container protection to the container Things
+    stores its database in. Whether a process can read it depends on the
+    "responsible app" macOS assigns to that process's session, and that
+    assignment gets cached by tccd and can flip mid-session. A foreground
+    terminal session usually inherits an existing grant. A background
+    daemon-spawned session often doesn't. Same binary, same code, same file,
+    different verdict depending on how the process was launched.
+  </p>
+
+  <p>
+    There's no API to query or fix this. TCC has no CLI. The failure mode it
+    produces looks exactly like a corrupted database, not a permissions
+    problem, which is why the first three hypotheses were all wrong in the
+    same direction.
+  </p>
+
+  <p>
+    The fix ended up being three small pieces working together, because no
+    single piece could guarantee availability on its own.
+  </p>
+
+  <p>
+    <strong>Live-first reads.</strong> The server tries the real database
+    first on every read. On the <code>CANTOPEN</code> error it memoizes the
+    denial for five minutes, kicks a mirror refresh, and falls back to a
+    mirror.
+  </p>
+
+  <p>
+    <strong>A mirror agent.</strong> A launchd job takes a transactionally
+    consistent snapshot with <code>sqlite3 -readonly ... VACUUM INTO</code>,
+    atomically renamed into place, every 30 seconds, only when the source
+    has actually changed.
+  </p>
+
+  <p>
+    <strong>Opportunistic donation.</strong> Any process that does have live
+    access at the moment refreshes the mirror itself in the background, so
+    the mirror stays warm even on a machine that never got a manual
+    permission grant at all.
+  </p>
+
+  <p>
+    The gotcha that cost the most time: the mirror agent has to be defined
+    through nix-darwin's own launchd stanza, not through home-manager's.
+    Home-manager wraps every job in a shell wrapper that execs into the real
+    binary, and TCC attributes the running job to that wrapper, not to the
+    binary it eventually execs into. The permission grant I'd given the
+    target binary didn't apply, even though it was the one actually reading
+    the file, because TCC had already decided who was "responsible" before
+    the exec happened. Only once the job definition lived where the plist's
+    program field named the target binary directly did the grant take.
+  </p>
+
+  <p>
+    Granting broad disk access to a shell binary is not a narrow thing to
+    do. It means every job rooted in that shell inherits the same grant,
+    not just this one. On a single-user machine I fully control, I decided
+    that's an acceptable trade. The alternative, granting the same access to
+    Claude's own binary, breaks on every update and misses every non-Claude
+    consumer of the mirror.
+  </p>
+
+  <p>
+    Reads have been reliable since. The whole thing, resilience layer,
+    mirror agent, and mirror-consumer wiring, is now public in
+    <a href="https://github.com/BradleyAllanDavis/things-turbo">things-turbo</a>,
+    the Things 3 MCP server this came out of.
+  </p>
+</Base>

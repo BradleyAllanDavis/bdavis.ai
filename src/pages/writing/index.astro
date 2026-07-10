@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+
+// Sparse post list, same shape as /projects. `themes` mirrors the same ids
+// in ~/.dotfiles/resume/content.yaml (accent-dot color map in global.css)
+// so a post's dot agrees with how the same topic is colored elsewhere.
+const posts = [
+  {
+    slug: 'unable-to-open-database-file',
+    title: '"unable to open database file": surviving macOS app-data protection in an MCP server',
+    date: 'July 10, 2026',
+    teaser: "Every Claude Code session's Things reads died at the same instant with the same SQLite error — the cause was macOS quietly revoking file access mid-session, not the database.",
+    themes: ['ai-native', 'infra'],
+  },
+];
+---
+<Base title="Writing — Bradley Davis" current="writing" description="Short technical write-ups from Bradley Davis on building AI-native systems and running a Nix homelab.">
+  <h1>Writing</h1>
+  <p class="muted">Short, technical, incident-log style. More as they're ready.</p>
+
+  {posts.map((p) => (
+    <section class="accent-edge" style={`--dot-fill: var(--accent-${p.themes[0]})`}>
+      <h3>
+        <span class="accent-dot" aria-hidden="true" />
+        <a href={`/writing/${p.slug}`}>{p.title}</a>
+      </h3>
+      <p class="muted sans" style="font-size:var(--text-xs);">{p.date}</p>
+      <p>{p.teaser}</p>
+    </section>
+  ))}
+</Base>

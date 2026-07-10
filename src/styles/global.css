@@ -190,10 +190,13 @@ body {
 .site-nav a[aria-current="page"] { color: var(--link); }
 .site-nav a[aria-current="page"] { border-bottom-color: var(--link); }
 /* Per-page nav accent -- Home/Bio stay unaccented (identity pages, no
-   section to color); Resume/Projects/Now each get a hue that now runs the
-   whole page (see [data-page-accent] below for the h1/h2 tie-in). Resume
-   reuses --link blue rather than a new tint -- it was already the site's
-   default accent, so it needed no separate rule here.
+   section to color); Resume/Writing/Projects/Now each get a hue that now
+   runs the whole page (see [data-page-accent] below for the h1/h2 tie-in).
+   Resume and Writing both reuse --link blue rather than a new tint -- it
+   was already the site's default accent, so neither needed a separate rule
+   here. (Writing was tried with cyan first; it measured under 3:1 as
+   literal nav text against Solarized Light's bg, same problem cyan/yellow/
+   green have below, so it was dropped in favor of reusing blue.)
    Projects/Now (orange/violet) additionally get a background wash on the
    active pill, verified >=3.1:1 text-vs-wash at 8% mix in both themes
    (WCAG relative-luminance) -- past ~10-12% the wash and the same-hue text
@@ -214,7 +217,6 @@ body {
   background: color-mix(in srgb, var(--violet) 8%, transparent);
   border-radius: 4px 4px 0 0;
 }
-
 /* Page-level accent -- ties the nav hue to the page's own h1/h2 rules,
    set once via [data-page-accent] on <body> (Base.astro) instead of
    threading a prop through every heading. Home/Bio have no attribute so
@@ -228,6 +230,8 @@ body[data-page-accent] h1 {
 }
 body[data-page-accent="resume"] h1,
 body[data-page-accent="resume"] h2 { border-bottom-color: var(--blue); }
+body[data-page-accent="writing"] h1,
+body[data-page-accent="writing"] h2 { border-bottom-color: var(--blue); }
 body[data-page-accent="projects"] h1,
 body[data-page-accent="projects"] h2 { border-bottom-color: var(--orange); }
 body[data-page-accent="now"] h1,

@@ -16,16 +16,17 @@ const {
 // accent: which per-page hue [data-accent] on the nav link and
 // [data-page-accent] on <body> pick up (see global.css). Home/Bio stay
 // unaccented -- they're identity pages (name, face, story), not themed
-// sections. Resume/Projects/Now each get a page accent that now carries all
-// the way through: nav underline, h1/h2 border color, and (Projects/Now
-// only) a background wash on the active nav pill -- Resume's blue is
-// reused, not tinted, since it's already the site's default link color and
-// the two-tone reuse (link blue everywhere + h1/h2 accent) is deliberate:
-// no pill wash for Resume, see global.css for why.
+// sections. Resume/Writing/Projects/Now each get a page accent that now
+// carries all the way through: nav underline, h1/h2 border color, and
+// (Projects/Now only) a background wash on the active nav pill -- Resume
+// and Writing both reuse blue rather than a new tint (it's already the
+// site's default link color), so neither gets a pill wash either; see
+// global.css for why a distinct Writing hue (cyan) didn't clear contrast.
 const nav = [
   { href: '/', label: 'Home', key: 'home' },
   { href: '/bio', label: 'Bio', key: 'bio' },
   { href: '/resume', label: 'Resume', key: 'resume', accent: 'resume' },
+  { href: '/writing', label: 'Writing', key: 'writing', accent: 'writing' },
   { href: '/projects', label: 'Projects', key: 'projects', accent: 'projects' },
   { href: '/now', label: 'Now', key: 'now', accent: 'now' },
 ];
