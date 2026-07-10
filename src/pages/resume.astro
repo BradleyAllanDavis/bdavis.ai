@@ -17,7 +17,7 @@ import {
       <a href="https://x.com/BradleyADavis"><Icon name="x" size={14} /> X</a>
       {basics.location && <span>{basics.location}</span>}
     </p>
-    <a class="dl" href="/resume.pdf">Download PDF</a>
+    <a class="dl" href="/resume.pdf"><Icon name="download" size={14} /> Download PDF</a>
 
     <h2>Summary</h2>
     <p>{summary.map((f) => <Fragment set:html={md(f.text) + ' '} />)}</p>
@@ -31,7 +31,7 @@ import {
       </>
     )}
 
-    <h2>Experience</h2>
+    <h2><Icon name="briefcase" size={17} /> Experience</h2>
     {experience.map((role) => (
       <section
         class={role.accentKey ? 'accent-edge' : undefined}
@@ -82,7 +82,7 @@ import {
 
     {education.length > 0 && (
       <>
-        <h2>Education</h2>
+        <h2><Icon name="graduation-cap" size={17} /> Education</h2>
         {education.map((e) => (
           <section>
             <div class="role-head">

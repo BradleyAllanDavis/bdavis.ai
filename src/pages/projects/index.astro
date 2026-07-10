@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
 
 // Sparse, honest list. Link only what is actually public and reachable; most of
 // this runs on a private homelab, so those entries describe rather than link.
@@ -45,7 +46,9 @@ const projects = [
     <section class="accent-edge" style={`--dot-fill: var(--accent-${p.themes[0]})`}>
       <h3>
         <span class="accent-dot" aria-hidden="true" />
-        {p.link ? <a href={p.link}>{p.name}</a> : p.name}
+        {p.link
+          ? <a href={p.link}>{p.name} <Icon name="external-link" size={13} /></a>
+          : p.name}
       </h3>
       <p>{p.desc}</p>
     </section>
