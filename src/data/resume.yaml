@@ -250,10 +250,10 @@ projects:
     themes: [infra, distributed-systems]
     strength: 4
     text: >-
-      Bitcoin Core and Core Lightning node, self-hosted git (Forgejo), DNS
-      (Pi-hole), Home Assistant, and a media stack, backed by ZFS-replicated
-      storage with restic backups and monitored via Prometheus and Grafana
-      across a UniFi network.
+      Self-hosted git (Forgejo) behind a Caddy reverse proxy, DNS (Pi-hole),
+      Home Assistant, and a media stack, backed by ZFS-replicated storage
+      with restic backups and monitored via Prometheus and Grafana across a
+      UniFi network.
   - id: mcp
     name: MCP Servers
     themes: [ai-native, backend]
