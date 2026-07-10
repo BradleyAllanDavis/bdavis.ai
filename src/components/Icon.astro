@@ -5,11 +5,12 @@
 // external-link/download/briefcase/graduation-cap are Google's Material
 // Icons (Apache License 2.0) -- "wb_sunny", "brightness_2", "open_in_new",
 // "file_download", "work", "school" respectively, pulled from Google's own
-// CDN (fonts.gstatic.com/s/i/materialicons/<name>/v1/24px.svg) with the
-// decorative fill="none" background rect dropped, since they're otherwise
-// single-path and fit this component's one-path-per-icon shape. Fill is
-// currentColor so each usage picks up whatever color its containing element
-// already has.
+// CDN at fonts.gstatic.com/s/i/materialicons/<name>/<version>/24px.svg
+// (wb_sunny v11, brightness_2 v9, the four newer ones all v1 -- version
+// pinned per-icon by Google, not a shared constant) with the decorative
+// fill="none" background rect dropped, since they're otherwise single-path
+// and fit this component's one-path-per-icon shape. Fill is currentColor so
+// each usage picks up whatever color its containing element already has.
 interface Props {
   name:
     | 'github' | 'linkedin' | 'x' | 'mail' | 'sun' | 'moon'
