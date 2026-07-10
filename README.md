@@ -78,10 +78,15 @@ major first.
 
 ## Deploy
 
-Cloudflare Pages **Direct Uploads** project (`bdavis-ai`) — NOT git-connected,
-and Cloudflare forbids converting a Direct Uploads project to git-connected
-(API error 8000069), so pushes do NOT auto-deploy. Deploy explicitly after
-building:
+Cloudflare Pages project `bdavis-ai` is git-connected as of 2026-07-10 —
+pushing to `main` on GitHub (`BradleyAllanDavis/bdavis.ai`) auto-triggers a
+build (`npm run build`, output `dist`) and deploy. No manual step needed.
+
+Earlier same-day history: the project started as a Direct Upload project
+(no git source), so pushes silently did nothing and the live site went
+stale behind several commits — that's what the 2026-07-10 commits before
+this one were fixing by hand. If auto-deploy ever breaks again, the manual
+fallback is:
 
 ```bash
 npm run build
@@ -89,5 +94,4 @@ CLOUDFLARE_API_TOKEN=$(~/.dotfiles/tools/op-read-serialized "op://Automation/Clo
   npx -y wrangler pages deploy dist --project-name=bdavis-ai --branch=main
 ```
 
-Verify at https://bdavis.ai after deploying. A push without a deploy leaves
-the live site stale — this bit on 2026-07-10.
+Verify at https://bdavis.ai after any deploy, manual or automatic.
