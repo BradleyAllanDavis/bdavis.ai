@@ -3,6 +3,19 @@
 Personal site for Bradley Davis. Spare, technical, single column. Built with
 [Astro](https://astro.build), deployed to Cloudflare Pages.
 
+## Content rules (standing, for any agent editing copy)
+
+Before drafting or editing any copy here, read `~/.dotfiles/docs/voice.md`
+and the standing charters in the private dotfiles CLAUDE.md. Short version:
+this site is a deliberate, minimal public projection — no personal-life
+details (home, family specifics, daily life) and no infrastructure
+inventory beyond what the existing copy already names. When in doubt, ask
+Bradley before adding anything new; the current copy is the ceiling, not a
+floor to build on.
+
+`src/data/resume.yaml` is a synced copy of `~/.dotfiles/resume/content.yaml`
+(`npm run sync-resume`) — fix content there, not here, or it gets clobbered.
+
 ## Develop
 
 ```bash
@@ -65,5 +78,16 @@ major first.
 
 ## Deploy
 
-Cloudflare Pages, connected to this GitHub repo. Build command `npm run build`,
-output directory `dist`. Every push to `main` auto-deploys.
+Cloudflare Pages **Direct Uploads** project (`bdavis-ai`) — NOT git-connected,
+and Cloudflare forbids converting a Direct Uploads project to git-connected
+(API error 8000069), so pushes do NOT auto-deploy. Deploy explicitly after
+building:
+
+```bash
+npm run build
+CLOUDFLARE_API_TOKEN=$(~/.dotfiles/tools/op-read-serialized "op://Automation/Cloudflare-DNS-API/credential") \
+  npx -y wrangler pages deploy dist --project-name=bdavis-ai --branch=main
+```
+
+Verify at https://bdavis.ai after deploying. A push without a deploy leaves
+the live site stale — this bit on 2026-07-10.
