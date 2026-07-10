@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import {
   basics, tagline, summary, aiCapabilities, experience,
-  projects, skillGroups, education, beyondKeyboard, md, accentKey,
+  projects, skillGroups, education, beyondKeyboard, md, accentKey, themeIcon,
 } from '../lib/resume';
 ---
 <Base title="Resume — Bradley Davis" current="resume" description={`${basics.name} — ${tagline}`}>
@@ -61,6 +61,7 @@ import {
             style={accentKey(p.themes) ? `--dot-fill: var(--accent-${accentKey(p.themes)})` : undefined}
           >
             {accentKey(p.themes) && <span class="accent-dot" aria-hidden="true" />}
+            {themeIcon(p.themes) && <Icon name={themeIcon(p.themes)!} size={13} class="theme-icon" />}
             <strong class="sans">{p.name}.</strong> <Fragment set:html={md(p.text)} />
           </p>
         ))}
@@ -75,6 +76,7 @@ import {
       >
         <span class="label">
           {accentKey(g.themes) && <span class="accent-dot" aria-hidden="true" />}
+          {themeIcon(g.themes) && <Icon name={themeIcon(g.themes)!} size={13} class="theme-icon" />}
           {g.name}:
         </span> {g.tags.join(', ')}
       </div>

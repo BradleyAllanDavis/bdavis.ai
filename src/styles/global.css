@@ -364,6 +364,17 @@ code {
   margin-left: -0.85rem;
 }
 
+/* Theme icon -- small glyph paired next to .accent-dot (Projects cards,
+   Resume Selected Projects, Resume Skills groups) so the 7 theme accents
+   carry a shape as well as a color. Inherits --dot-fill from the same
+   .accent-edge container the dot reads from, so it's always the same hue.
+   Purely reinforcing, like .accent-edge -- the dot alone remains the
+   WCAG-compliant signal. */
+.theme-icon {
+  color: var(--dot-fill);
+  margin: 0 0.3em 0 0.05em;
+}
+
 hr { border: none; border-top: 1px solid var(--border-strong); margin: 2.5rem 0; }
 
 /* /now's focus list -- the accent-dot replaces the default bullet marker

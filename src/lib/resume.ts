@@ -7,6 +7,7 @@ import yaml from 'js-yaml';
 // Inlined at build time by Vite, so it works in both dev and the bundled SSG
 // output (no runtime filesystem lookup).
 import raw from '../data/resume.yaml?raw';
+import type { IconName } from '../components/Icon.astro';
 
 type Themed = { themes?: string[]; strength?: number };
 interface Bullet extends Themed { id?: string; text: string }
@@ -84,6 +85,26 @@ function dominantTheme(bullets: Bullet[]): string | undefined {
 export function accentKey(themes: string[] | undefined): string | undefined {
   const primary = themes?.[0];
   return primary ? THEME_ACCENT[primary] : undefined;
+}
+
+// Theme -> small glyph paired with the accent-dot (see global.css's
+// .accent-dot / .accent-edge comments -- the dot itself stays the
+// WCAG-compliant signal; this icon is added scanning-value reinforcement,
+// same spirit as .accent-edge). Every one of the 7 themes has a clean
+// single-path Material Icon at this size, so all 7 are mapped here.
+const THEME_ICON: Record<string, IconName> = {
+  'ai-native': 'bolt',
+  backend: 'storage',
+  'distributed-systems': 'device-hub',
+  infra: 'dns',
+  leadership: 'flag',
+  payments: 'credit-card',
+  devex: 'terminal',
+};
+
+export function themeIcon(themes: string[] | undefined): IconName | undefined {
+  const primary = themes?.[0];
+  return primary ? THEME_ICON[primary] : undefined;
 }
 
 export const basics = data.basics;
