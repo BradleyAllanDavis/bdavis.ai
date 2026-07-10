@@ -85,7 +85,7 @@ building:
 
 ```bash
 npm run build
-CLOUDFLARE_API_TOKEN=$(~/.dotfiles/tools/op-read-serialized "op://Automation/Cloudflare-DNS-API/credential") \
+CLOUDFLARE_API_TOKEN=$(~/.dotfiles/tools/op-read-serialized "op://Automation/Cloudflare-Pages-API/credential") \
   npx -y wrangler pages deploy dist --project-name=bdavis-ai --branch=main
 ```
 
