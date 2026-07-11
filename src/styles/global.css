@@ -454,7 +454,80 @@ hr { border: none; border-top: 1px solid var(--border-strong); margin: 2.5rem 0;
   color: var(--fg-muted);
   margin: 0 0 1.4rem;
 }
+/* Caption + freshness share one baseline row under a hairline header rule,
+   giving the panel a diagnostic-readout frame. Freshness reads the `updated`
+   field only -- no health word until a real pipeline can back one. */
+.fleetviz-caption-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.9rem;
+  margin: 0 0 1.15rem;
+  border-bottom: 1px solid var(--border);
+}
+.fleetviz-caption-row .fleetviz-caption {
+  margin: 0;
+}
+.fleetviz-meta {
+  font-family: var(--mono);
+  font-size: var(--text-2xs);
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+/* Spec-sheet layout: a right-aligned label gutter, a faint vertical spine,
+   then the content column. The spine spans both bands as one continuous rule,
+   spatially tying the agent layer to the fleet it runs on (a design cue, not
+   a topology claim -- see FleetViz.tsx). */
+.fleetviz-body {
+  display: grid;
+  grid-template-columns: max-content 1px 1fr;
+  column-gap: 1.15rem;
+  row-gap: 1.3rem;
+  align-items: start;
+}
+.fleetviz-spine {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: stretch;
+  width: 1px;
+  background: var(--border);
+}
+.fleetviz-band-label {
+  grid-column: 1;
+  justify-self: end;
+  padding-top: 0.15rem;
+  font-family: var(--mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: right;
+  color: var(--fg-muted);
+  opacity: 0.7;
+}
+.fleetviz-tags {
+  grid-column: 3;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1.4rem;
+}
+.fleetviz-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--mono);
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+}
+.fleetviz-tagmark {
+  color: var(--cyan);
+}
 .fleetviz-row {
+  grid-column: 3;
   position: relative;
   display: flex;
   gap: 1.25rem;
@@ -522,6 +595,13 @@ hr { border: none; border-top: 1px solid var(--border-strong); margin: 2.5rem 0;
    affordance a phone visitor might not notice. Wrap into two centered rows
    instead -- the connecting line only makes sense for a single row, so it's
    dropped here rather than drawn broken across the wrap. */
+/* Narrow: drop the label gutter + spine, stack each band label above its
+   content full-width. The spine only reads as a tie in the two-column layout. */
+@media (max-width: 560px) {
+  .fleetviz-body { grid-template-columns: 1fr; row-gap: 1.1rem; }
+  .fleetviz-spine { display: none; }
+  .fleetviz-band-label { justify-self: start; text-align: left; padding-top: 0; margin-bottom: -0.55rem; }
+}
 @media (max-width: 480px) {
   .fleetviz-row { flex-wrap: wrap; overflow-x: visible; justify-content: center; row-gap: 1.1rem; gap: 0.9rem; }
   .fleetviz-line { display: none; }

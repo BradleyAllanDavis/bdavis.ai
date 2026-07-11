@@ -1,6 +1,16 @@
 {
   "updated": "2026-07-08",
-  "nodes": [
+  "cloud": [
+    "edge hosting",
+    "DNS",
+    "TLS/CDN"
+  ],
+  "control": [
+    "typed agent roster",
+    "MCP servers",
+    "egress-governed shell"
+  ],
+  "machines": [
     { "role": "Workstation", "status": "cyan" },
     { "role": "Workstation", "status": "cyan" },
     { "role": "Storage", "status": "blue" },
