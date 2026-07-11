@@ -3,7 +3,20 @@ import fleet from '../data/fleet.json';
 
 type Status = 'cyan' | 'yellow' | 'blue' | 'green';
 type Machine = { role: string; status: Status; hub?: boolean };
-type FleetData = { updated: string; cloud: string[]; control: string[]; machines: Machine[] };
+type FleetData = {
+  updated: string;
+  cloud: string[];
+  control: string[];
+  machines: Machine[];
+  status?: string;
+};
+
+// Live heartbeat object, pushed every 5 min by a protectli systemd timer
+// (modules/nixos/services/fleet-heartbeat) -- see
+// docs/research/bdavis-io-heartbeat-HANDOFF.md. Only the bundled build-time
+// FALLBACK below has no `status` field, so the word only ever renders once a
+// real collector backs it.
+const FLEET_URL = 'https://pub-af3ab64cccd24209ac231f124c517f41.r2.dev/fleet.json';
 
 // Build-time fallback -- also what /public-data/fleet.json serves today.
 // Three tiers, function labels only: no hostnames, IPs, ports, or service
@@ -36,23 +49,27 @@ export default function FleetViz() {
   const [data, setData] = useState<FleetData>(FALLBACK);
 
   useEffect(() => {
-    // Single fetch on mount against the same static payload the build already
-    // rendered -- so there's no flash of different content. When the P1
-    // heartbeat pipeline lands (protectli collects abstracted status and
-    // pushes it out to a cloud edge object), this is the seam: point the fetch
-    // at that public URL and move to a periodic poll. Not worth a poll yet
-    // against a file that only changes on redeploy.
+    // Poll the live R2 heartbeat object, which the protectli collector
+    // republishes every 5 min. Renders instantly from the bundled FALLBACK,
+    // then swaps in the live payload once it lands -- so there's no flash of
+    // empty content, and a fetch failure (e.g. CORS on a non-production
+    // origin) just leaves the static fallback in place.
     let cancelled = false;
-    fetch('/public-data/fleet.json')
-      .then((res) => (res.ok ? res.json() : null))
-      .then((json) => {
-        if (!cancelled && isFleetData(json)) setData(json);
-      })
-      .catch(() => {
-        /* no pipeline yet -- static fallback already rendered */
-      });
+    const poll = () => {
+      fetch(FLEET_URL)
+        .then((res) => (res.ok ? res.json() : null))
+        .then((json) => {
+          if (!cancelled && isFleetData(json)) setData(json);
+        })
+        .catch(() => {
+          /* fetch blocked or unreachable -- fallback stays rendered */
+        });
+    };
+    poll();
+    const id = setInterval(poll, 5 * 60 * 1000);
     return () => {
       cancelled = true;
+      clearInterval(id);
     };
   }, []);
 
@@ -60,7 +77,9 @@ export default function FleetViz() {
     <div class="fleetviz" role="group" aria-label="Control plane and homelab fleet, by role">
       <div class="fleetviz-caption-row">
         <p class="fleetviz-caption">// one nix flake, one control plane, five machines</p>
-        <span class="fleetviz-meta">updated {data.updated}</span>
+        <span class="fleetviz-meta">
+          {data.status ? `${data.status} · ` : ''}updated {data.updated}
+        </span>
       </div>
 
       <div class="fleetviz-body">
