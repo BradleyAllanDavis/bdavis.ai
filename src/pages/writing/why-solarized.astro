@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base
+  title="Why everything I touch is Solarized — Bradley Davis"
+  current="writing"
+  description="Every terminal, editor, and this site itself run the same 16-color Solarized palette. Not a rut — one Nix module every tool reads from."
+>
+  <p class="muted sans" style="font-size:var(--text-xs);"><a href="/writing"><span aria-hidden="true">&larr; </span>Writing</a></p>
+  <h1>Why everything I touch is Solarized</h1>
+  <p class="muted sans" style="font-size:var(--text-xs);">July 11, 2026</p>
+
+  <p>
+    Terminal, editor, tmux, prompt, SSH sessions into five different
+    machines. Same sixteen colors every time: Solarized Dark. This site's
+    palette above is the same hex values, pulled from the same source. Not
+    a rut, one module.
+  </p>
+
+  <p>
+    Ethan Schoonover built Solarized against actual color science rather
+    than a screenshot someone liked. The eight monotone and eight accent
+    colors are tuned in CIELAB space so contrast holds up consistently
+    across both a light and a dark variant, instead of the muddy or
+    blown-out swaps most palettes produce when you try to run them both
+    ways. It reads as a spec, not a vibe.
+  </p>
+
+  <p>
+    The personal reason is simpler: it's calming, and it cuts visual
+    noise. One palette everywhere means my eyes stop re-adjusting every
+    time I context-switch between tools.
+  </p>
+
+  <p>
+    The engineering reason is why it stuck. The palette lives in one
+    place, a Nix module, exposed as a single attrset every tool config
+    reads from: terminal, editor, tmux, prompt, even the CSS variables
+    behind this page. Switching theme, if I ever did, is a one-line import
+    change in one file, not a dozen configs edited by hand and drifting
+    out of sync a month later. The consistency isn't upkeep, it's
+    structural.
+  </p>
+
+  <p>
+    More about how I work: <a href="/">home</a>.
+  </p>
+</Base>
