@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base
+  title="The backlog problem was never ideas — Bradley Davis"
+  current="writing"
+  description="Agents didn't make my ideas better. They collapsed the setup tax that used to keep a backlog of side projects permanently deferred."
+>
+  <p class="muted sans" style="font-size:var(--text-xs);"><a href="/writing"><span aria-hidden="true">&larr; </span>Writing</a></p>
+  <h1>The backlog problem was never ideas</h1>
+  <p class="muted sans" style="font-size:var(--text-xs);">July 11, 2026</p>
+
+  <p>
+    Every engineer who has shipped for a while ends up with the same
+    graveyard: a long list of tools and side projects that sounded good
+    the day they were captured and never got touched again. Not because
+    the ideas were bad. Because trying any one of them meant a weekend of
+    pure setup before you got anywhere near the interesting part.
+  </p>
+
+  <p>
+    The bottleneck was never conceiving the thing. It was the plumbing:
+    standing up the infra, wiring one API to another, reading a config
+    format you'd use exactly once, debugging an auth flow that had
+    nothing to do with what you actually wanted to build. That tax is
+    what kept most of the backlog permanently deferred against a day job,
+    or a job search, or two small kids.
+  </p>
+
+  <p>
+    Agents change that ratio directly. Something that can read the docs,
+    write the glue code, run the thing until it works, and tell you
+    honestly when it doesn't, takes the setup tax that used to gate every
+    new idea and makes most of it delegable. The idea didn't get better.
+    The cost of finding out whether it works dropped by an order of
+    magnitude.
+  </p>
+
+  <p>
+    This site is the proof, and so is most of what's on
+    <a href="/projects">/projects</a>: a Nix control plane running five
+    machines, a dozen MCP servers wiring home, finance, and
+    infrastructure into tools an agent can drive end to end, a
+    self-hosted homelab that used to be three separate half-finished
+    attempts. All of it sat in a backlog for years before this one,
+    not because I didn't want it, because I never had a free weekend
+    that also had the patience for the plumbing.
+  </p>
+
+  <p>
+    The backlog is still long. It's just moving now, item by item, for
+    the first time. More of it: <a href="/projects">projects</a>.
+  </p>
+</Base>
