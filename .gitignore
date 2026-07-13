@@ -13,5 +13,8 @@ npm-debug.log*
 .env.production
 # wrangler
 .wrangler/
-# local agent-harness config, not project content
-.claude/
+# graphify working files (graph itself is versioned)
+graphify-out/cost.json
+graphify-out/cache/
+graphify-out/.graphify_python
+graphify-out/.graphify_root
