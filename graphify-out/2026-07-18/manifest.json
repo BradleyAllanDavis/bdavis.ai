@@ -70,9 +70,9 @@
     "semantic_hash": "6ffce88a553c50f99fe16c86ea76c8c5"
   },
   "src/pages/projects/index.astro": {
-    "mtime": 1784396089.3636932,
-    "ast_hash": "0129924364d1e781012a3aadbe40ba17",
-    "semantic_hash": ""
+    "mtime": 1783719458.468916,
+    "ast_hash": "bae4c7194cace0c714d76dcf27c69974",
+    "semantic_hash": "bae4c7194cace0c714d76dcf27c69974"
   },
   "src/pages/resume.astro": {
     "mtime": 1783719450.8311417,

@@ -3,44 +3,77 @@ import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import { themeIcon } from '../../lib/resume';
 
-// Sparse, honest list. Link only what is actually public and reachable; most of
-// this runs on a private homelab, so those entries describe rather than link.
+// Showcase cards: what it is, why it's hard, and where the proof lives.
+// Link only what is actually public and reachable; most of this runs on a
+// private homelab, so those entries say so honestly instead of linking.
 // `themes` mirrors the same ids in ~/.dotfiles/resume/content.yaml (the
 // primary/first theme drives this entry's accent dot -- see global.css's
 // theme->accent map) so the two pages agree on what each project "is,"
 // even though the prose is written separately for each audience.
+// go-unifi-mcp is deliberately absent: it's a fork of claytono's project,
+// not an authored artifact.
 const projects = [
   {
-    name: 'Nix control plane',
-    desc: 'A single declarative Nix repo managing five machines (macOS and NixOS), secrets, networking, home automation, plus AI-agent config and health-check automation.',
-    link: null,
-    themes: ['infra', 'ai-native', 'devex'],
+    name: 'Tandem',
+    link: 'https://github.com/BradleyAllanDavis/tandem',
+    themes: ['distributed-systems', 'backend'],
+    what: 'Multi-account task delegation for Things 3. Tag a todo with a family member’s name and it lands natively in their Things Inbox; the moment delivery is confirmed, your copy completes itself.',
+    hard: 'Things has no public API, no server-side writes, and no multi-user anything, so Tandem syncs across accounts that share nothing but a LAN — with no-loss and no-duplicate invariants proven end to end by chaos tests (crashed writers, lost responses, expired leases). Stdlib-only Python; even the 58-test suite has zero dependencies.',
+    meta: [{ label: 'Code', href: 'https://github.com/BradleyAllanDavis/tandem', text: 'GitHub' }],
   },
   {
-    name: 'Production MCP servers',
-    desc: 'A dozen Model Context Protocol servers running at home, exposing home, finance, and infrastructure systems as tools that agents drive end to end.',
+    name: 'things-turbo',
+    link: 'https://github.com/BradleyAllanDavis/things-turbo',
+    themes: ['ai-native', 'backend'],
+    what: 'A composite Model Context Protocol server for Things 3: batch queries, bulk updates, checklist operations, and a self-healing read path.',
+    hard: 'The hard part was macOS itself: TCC can silently revoke database access mid-session, killing every read at once. things-turbo detects the denial and falls back through a mirror chain instead of dying — the full diagnosis is in the write-up.',
+    meta: [
+      { label: 'Code', href: 'https://github.com/BradleyAllanDavis/things-turbo', text: 'GitHub' },
+      { label: 'Write-up', href: '/writing/unable-to-open-database-file', text: 'the incident log' },
+    ],
+  },
+  {
+    name: 'Nix control plane',
+    link: null,
+    themes: ['infra', 'ai-native', 'devex'],
+    what: 'A single declarative Nix repo managing five machines (macOS and NixOS), secrets, networking, home automation, plus AI-agent config and health-check automation.',
+    hard: 'One repo drives two operating systems and five machines, and AI agents edit and deploy it daily — so the guardrails are the interesting part: preflight guards abort any remote deploy from a dirty or unpushed tree.',
+    meta: 'private',
+  },
+  {
+    name: 'MCP servers',
     link: null,
     themes: ['ai-native', 'backend'],
+    what: 'A dozen Model Context Protocol servers running at home — authored and hardened third-party — exposing home, finance, and infrastructure systems as tools that agents drive end to end.',
+    hard: 'The boundary is the point: writes are permission-scoped and credential reads are tamper-monitored, so agents get real capability without open-ended access.',
+    meta: 'mostly-private',
   },
   {
     name: 'Self-hosted homelab',
-    desc: 'A Caddy reverse proxy in front of self-hosted git (Forgejo), Pi-hole DNS, and Home Assistant, backed by ZFS-replicated storage with restic backups across a UniFi network, monitored with Prometheus and Grafana.',
     link: null,
     themes: ['infra', 'distributed-systems'],
+    what: 'A Caddy reverse proxy in front of self-hosted git (Forgejo), Pi-hole DNS, and Home Assistant, backed by ZFS-replicated storage with restic backups across a UniFi network, monitored with Prometheus and Grafana.',
+    hard: 'The discipline is the hard part: everything declarative, monitored, and backed up, so a dead disk is an inconvenience, not an incident.',
+    meta: 'private',
   },
   {
     name: 'bdavis.ai',
-    desc: 'This site. Astro and Markdown, deployed to Cloudflare Pages; the resume page renders from the same content store as the PDF.',
     link: 'https://github.com/BradleyAllanDavis/bdavis.ai',
     themes: ['ai-native', 'infra'],
+    what: 'This site. Astro and Markdown, deployed to Cloudflare Pages.',
+    hard: 'The resume page renders at build time from the same content store as the PDF resume, so the two can never drift.',
+    meta: [
+      { label: 'Code', href: 'https://github.com/BradleyAllanDavis/bdavis.ai', text: 'GitHub' },
+      { label: 'Live', href: '/', text: 'you’re looking at it' },
+    ],
   },
 ];
 ---
-<Base title="Projects — Bradley Davis" current="projects" description="Things Bradley Davis has built.">
+<Base title="Projects — Bradley Davis" current="projects" description="Things Bradley Davis has built: public code where it exists, honest descriptions where it runs on private infrastructure.">
   <h1>Projects</h1>
   <p class="muted">
-    A short list. Most of it runs on a private homelab, so some entries describe
-    the work rather than link to it.
+    A short list, code first where the code is public. The rest runs on a
+    private homelab, so those entries describe the work rather than link to it.
   </p>
 
   {projects.map((p) => (
@@ -52,7 +85,18 @@ const projects = [
           ? <a href={p.link}>{p.name} <Icon name="external-link" size={14} /></a>
           : p.name}
       </h3>
-      <p>{p.desc}</p>
+      <p>{p.what}</p>
+      <p>{p.hard}</p>
+      <p class="muted sans" style="font-size:var(--text-xs);">
+        {p.meta === 'private' && 'Private infra — described, not linked.'}
+        {p.meta === 'mostly-private' && 'Mostly private — the public carve-out is things-turbo, above.'}
+        {Array.isArray(p.meta) && p.meta.map((m, i) => (
+          <>
+            {i > 0 && ' · '}
+            {m.label}: <a href={m.href}>{m.text}</a>
+          </>
+        ))}
+      </p>
     </section>
   ))}
 </Base>
